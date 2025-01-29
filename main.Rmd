@@ -50,33 +50,4 @@ plot(raster_data)
 
 ```
 
-
-# Google Earth Engine - WORK IN PROGRSS
-to compare the differences between the Oregon LiDAR and Meta 1m Tree data
-
-```{r}
-# If required run ee_Authenticate()
-
-ee_Authenticate(auth_mode='notebook')
-ee_Initialize(project = "ee-frmstf")
-```
-
-```{r}
-canopy_ht <- ee$ImageCollection("projects/meta-forest-monitoring-okw37/assets/CanopyHeight")
-gee_aoi <- ee$Geometry$Rectangle(bbox)
-
-canopy_ht_image <- canopy_ht_collection$filterBounds(region)$first()
-
-local_path <- "canopy_height.tif"
-
-ee_as_raster(
-  image = canopy_ht_image,
-  region = region,
-  scale = 30,  # Adjust the scale (resolution) as needed
-  dsn = local_path
-)
-```
-
-
-
-
+# Raster Masking 
