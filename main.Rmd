@@ -1,0 +1,57 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+library(dplyr)
+
+library(terra)
+library(sf)
+library(whitebox)
+library(httr)
+library(arcpullr)
+library(rgee)
+
+library(ForestTools)
+library(lidR)
+
+
+```
+# try 2
+
+
+```{r}
+image_service_url <- "https://gis.dogami.oregon.gov/arcgis/rest/services/lidar/CANOPY_HEIGHT_MODEL_MOSAIC/ImageServer"
+
+# Define the bounding box (xmin, ymin, xmax, ymax)
+bbox <- c(xmin = -122.5, ymin = 44.0, xmax = -122.49, ymax = 44.01)
+
+query_url <- paste0(
+  image_service_url,
+  "/exportImage?bbox=",
+  paste(bbox, collapse = ","),
+  "&bboxSR=4326&size=1000,1000&imageSR=4326&format=tiff&f=image"
+)
+
+response <- httr::GET(query_url)
+
+if (response$status_code == 200) {
+  # Write the content to a file
+  writeBin(httr::content(response, "raw"), "output.tiff")
+} else {
+  stop("Failed to retrieve raster data.")
+}
+
+raster_data <- rast("output.tiff")
+
+
+```
+
+# Try 1 
+```{r}
+chm_url <- "https://gis.dogami.oregon.gov/arcgis/rest/services/lidar/CANOPY_HEIGHT_MODEL_MOSAIC/"
+
+chm_dem <- get_image_layer(chm_url, sf_object = aoi)
+```

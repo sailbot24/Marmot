@@ -1,0 +1,18 @@
+Version: 1.0
+ProjectId: c73b6bd0-201b-47d1-8815-0e40ef48c907
+
+RestoreWorkspace: Default
+SaveWorkspace: Default
+AlwaysSaveHistory: Default
+
+EnableCodeIndexing: Yes
+UseSpacesForTab: Yes
+NumSpacesForTab: 2
+Encoding: UTF-8
+
+RnwWeave: Sweave
+LaTeX: pdfLaTeX
+
+PythonType: conda
+PythonVersion: 3.9.15
+PythonPath: ~/anaconda3/envs/GIS/bin/python3.9
