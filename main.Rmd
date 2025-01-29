@@ -26,10 +26,10 @@ image_service_url <- "https://gis.dogami.oregon.gov/arcgis/rest/services/lidar/C
 
 
 aoi <-st_read("OregonLidarData.gpkg", layer = "AOI")
+aoi<- sf::st_transform(aoi, "EPSG:4326")
 bbox <-st_bbox(aoi)
-# Define the bounding box (xmin, ymin, xmax, ymax)
-#bbox <- c(xmin = -122.5, ymin = 44.0, xmax = -122.49, ymax = 44.01)
 
+# Queary the image service
 query_url <- paste0(
   image_service_url,
   "/exportImage?bbox=",
@@ -47,18 +47,36 @@ if (response$status_code == 200) {
 }
 
 raster_data <- rast("output.tiff")
-
+plot(raster_data)
 
 ```
 
 
-# Google Earth Engine
+# Google Earth Engine - WORK IN PROGRSS
 to compare the differences between the Oregon LiDAR and Meta 1m Tree data
 
 ```{r}
+# If required run ee_Authenticate()
 
+ee_Authenticate(auth_mode='notebook')
+ee_Initialize(project = "ee-frmstf")
 ```
 
+```{r}
+canopy_ht <- ee$ImageCollection("projects/meta-forest-monitoring-okw37/assets/CanopyHeight")
+gee_aoi <- ee$Geometry$Rectangle(bbox)
+
+canopy_ht_image <- canopy_ht_collection$filterBounds(region)$first()
+
+local_path <- "canopy_height.tif"
+
+ee_as_raster(
+  image = canopy_ht_image,
+  region = region,
+  scale = 30,  # Adjust the scale (resolution) as needed
+  dsn = local_path
+)
+```
 
 
 
