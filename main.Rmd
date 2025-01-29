@@ -9,7 +9,6 @@ library(dplyr)
 
 library(terra)
 library(sf)
-library(whitebox)
 library(httr)
 library(arcpullr) #would be cool if it worked but right now it does not seem to work right 
 library(rgee)
