@@ -1,0 +1,65 @@
+<!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
+<qgis version="3.38.3-Grenoble">
+  <identifier>veg</identifier>
+  <parentidentifier></parentidentifier>
+  <language>EN</language>
+  <type>dataset</type>
+  <title>veg</title>
+  <abstract>This is a photo-interpreted vegetation layer that is more detailed and done to higher more consistent standard than the forestwide vegetation layer (vege). Forest land is typed to a 5 acre minimum for federal and state ownership, 20 acre for private. 
+
+To provide better information on non-commercial and riparian stand conditions, for use in Watershed Analysis.
+
+The photo interperting was done by Will Koenitzer, and people trained by Will Koenitzer, to maintain consistancy. Photo interpreted from 1:12000 aerial photos flown 1989 - 1995. </abstract>
+  <keywords vocabulary="gmd:topicCategory">
+    <keyword>Vegetation</keyword>
+  </keywords>
+  <contact>
+    <contactAddress>
+      <type>mailing address</type>
+      <address>PO Box 1148</address>
+      <city>Corvallis</city>
+      <administrativearea>OR</administrativearea>
+      <postalcode>97339</postalcode>
+      <country>USA</country>
+    </contactAddress>
+    <contactAddress>
+      <type>physical address</type>
+      <address>4077 Research Way</address>
+      <city>Corvallis</city>
+      <administrativearea>OR</administrativearea>
+      <postalcode>97339</postalcode>
+      <country>USA</country>
+    </contactAddress>
+    <name>USDA Forest Service, Siuslaw National Forest</name>
+    <organization>USDA Forest Service, Siuslaw National Forest</organization>
+    <position></position>
+    <voice>541-750-7000</voice>
+    <fax>541-750-7234</fax>
+    <email></email>
+    <role>Point of contact</role>
+  </contact>
+  <links>
+    <link type="Local Area Network" mimeType="" format="" size="" description="" url="file://\\ds.fs.fed.us\EFS\\FS\NFS\R06\Program\ResourceInfoMgmt\GIS\CSA2\Workspace\angigi\Converting_lib\Siuslaw\shapefiles\veg.shp" name="Shapefile"/>
+  </links>
+  <dates/>
+  <fees></fees>
+  <constraints type="Access">None</constraints>
+  <rights>None</rights>
+  <encoding></encoding>
+  <crs>
+    <spatialrefsys nativeFormat="Wkt">
+      <wkt></wkt>
+      <proj4></proj4>
+      <srsid>0</srsid>
+      <srid>0</srid>
+      <authid></authid>
+      <description></description>
+      <projectionacronym></projectionacronym>
+      <ellipsoidacronym></ellipsoidacronym>
+      <geographicflag>false</geographicflag>
+    </spatialrefsys>
+  </crs>
+  <extent>
+    <spatial minz="0" crs="EPSG:4326" maxz="0" miny="1076725.75088700000196695" maxy="1263713.70123900007456541" minx="268139.86888199998065829" dimensions="2" maxx="315088.56132400000933558"/>
+  </extent>
+</qgis>

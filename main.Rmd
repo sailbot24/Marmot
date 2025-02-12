@@ -1,53 +1,52 @@
 ---
-title: "R Notebook"
-output: html_notebook
+title: "Oregon LiDAR CHM Mapping Project"
+output:
+  html_document:
+    df_print: paged
 ---
 
+# Packages
 
-```{r}
+```{r, include=FALSE}
 library(dplyr)
 
 library(terra)
 library(sf)
-library(httr)
-library(arcpullr) #would be cool if it worked but right now it does not seem to work right 
-library(rgee)
+# library(httr)
+# library(arcpullr) #would be cool if it worked but right now it does not seem to work right 
 
 library(ForestTools)
 library(lidR)
 
+library(whitebox)
+source("oregon_chm_downloader.r")
 
 ```
 
 # Downloading DEM Tiles
+
 ```{r}
-image_service_url <- "https://gis.dogami.oregon.gov/arcgis/rest/services/lidar/CANOPY_HEIGHT_MODEL_MOSAIC/ImageServer"
 
+aoi <- sf::st_read("OregonLidarData.gpkg", layer = "AOI", quiet = TRUE)
 
-aoi <-st_read("OregonLidarData.gpkg", layer = "AOI")
-aoi<- sf::st_transform(aoi, "EPSG:4326")
-bbox <-st_bbox(aoi)
+chm<- download_oregon_chm(aoi)
 
-# Queary the image service
-query_url <- paste0(
-  image_service_url,
-  "/exportImage?bbox=",
-  paste(bbox, collapse = ","),
-  "&bboxSR=4326&size=1000,1000&imageSR=4326&format=tiff&f=image"
-)
-
-response <- httr::GET(query_url)
-
-if (response$status_code == 200) {
-  # Write the content to a file
-  writeBin(httr::content(response, "raw"), "output.tiff")
-} else {
-  stop("Failed to retrieve raster data.")
-}
-
-raster_data <- rast("output.tiff")
-plot(raster_data)
+plot(chm)
 
 ```
 
-# Raster Masking 
+# Filter the Veg Shapefiles
+
+```{r}
+veg_shapefiles <- st_read("Veg_ShapeFiles/2003-Veg_Siuslaw/veg.shp", quiet = T) 
+filtered_veg <- veg_shapefiles %>% filter(YR_ORIG > 1946 & L1_SZCL >9)
+
+```
+
+# Try to download the raster for the first veg shape file 
+
+```{r}
+aoi <- filtered_veg[1,]
+chm<- download_oregon_chm(aoi, mask = TRUE)
+
+```

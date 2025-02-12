@@ -1,0 +1,1292 @@
+<?xml version="1.0"?>
+<!--<!DOCTYPE metadata SYSTEM "http://www.esri.com/metadata/esriprof80.dtd">-->
+<metadata xml:lang="en">
+	<Esri>
+		<CreaDate>20070307</CreaDate>
+		<CreaTime>09580900</CreaTime>
+		<SyncOnce>FALSE</SyncOnce>
+		<SyncDate>20091104</SyncDate>
+		<SyncTime>15455000</SyncTime>
+		<ModDate>20091104</ModDate>
+		<ModTime>15455000</ModTime>
+		<MetaID>{2F66425D-3167-4C70-9A1B-44DCAB50B61C}</MetaID><DataProperties><lineage><Process ToolSource="C:\ArcGIS\ArcToolbox\Toolboxes\Conversion Tools.tbx\FeatureClassToFeatureClass" Date="20091104" Time="154607">FeatureClassToFeatureClass T:\FS\Reference\GIS\r06_siu\data\veg\polygon T:\FS\NFS\R06\Program\ResourceInfoMgmt\GIS\CSA2\Workspace\angigi\Converting_lib\Siuslaw\shapefiles veg.shp # "AREA 'AREA' false true true 8 Double 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,AREA,-1,-1;PERIMETER 'PERIMETER' false true true 8 Double 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,PERIMETER,-1,-1;VEG_ 'VEG_' false true true 4 Long 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,VEG#,-1,-1;VEG_ID 'VEG_ID' true true true 4 Long 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,VEG-ID,-1,-1;PHOTO_NO 'PHOTO_NO' true true false 20 Text 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,PHOTO_NO,-1,-1;STAND_TAG 'STAND_TAG' true true false 4 Long 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,STAND_TAG,-1,-1;LAY_TYPE 'LAY_TYPE' true true false 4 Text 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,LAY_TYPE,-1,-1;YR_ORIG 'YR_ORIG' true true false 2 Short 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,YR_ORIG,-1,-1;TOT_CLOS 'TOT_CLOS' true true false 2 Short 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,TOT_CLOS,-1,-1;L1_CLOS 'L1_CLOS' true true false 2 Short 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,L1_CLOS,-1,-1;L1_SZCL 'L1_SZCL' true true false 2 Short 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,L1_SZCL,-1,-1;L1_SPP1 'L1_SPP1' true true false 5 Text 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,L1_SPP1,-1,-1;L1_SPP2 'L1_SPP2' true true false 5 Text 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,L1_SPP2,-1,-1;L1_SPP3 'L1_SPP3' true true false 5 Text 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,L1_SPP3,-1,-1;L1_CLUMP 'L1_CLUMP' true true false 1 Text 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,L1_CLUMP,-1,-1;L1_SNAG 'L1_SNAG' true true false 2 Short 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,L1_SNAG,-1,-1;L2_CLOS 'L2_CLOS' true true false 2 Short 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,L2_CLOS,-1,-1;L2_SZCL 'L2_SZCL' true true false 2 Short 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,L2_SZCL,-1,-1;L2_SPP1 'L2_SPP1' true true false 5 Text 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,L2_SPP1,-1,-1;L2_SPP2 'L2_SPP2' true true false 5 Text 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,L2_SPP2,-1,-1;L2_SPP3 'L2_SPP3' true true false 5 Text 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,L2_SPP3,-1,-1;L2_CLUMP 'L2_CLUMP' true true false 1 Text 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,L2_CLUMP,-1,-1;L2_SNAG 'L2_SNAG' true true false 2 Short 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,L2_SNAG,-1,-1;L3_CLOS 'L3_CLOS' true true false 2 Short 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,L3_CLOS,-1,-1;L3_SZCL 'L3_SZCL' true true false 2 Short 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,L3_SZCL,-1,-1;L3_SPP1 'L3_SPP1' true true false 5 Text 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,L3_SPP1,-1,-1;L3_SPP2 'L3_SPP2' true true false 5 Text 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,L3_SPP2,-1,-1;L3_SPP3 'L3_SPP3' true true false 5 Text 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,L3_SPP3,-1,-1;L3_CLUMP 'L3_CLUMP' true true false 1 Text 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,L3_CLUMP,-1,-1;L4_CLOS 'L4_CLOS' true true false 2 Short 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,L4_CLOS,-1,-1;L5_CLOS 'L5_CLOS' true true false 2 Short 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,L5_CLOS,-1,-1;REMNANTS 'REMNANTS' true true false 1 Text 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,REMNANTS,-1,-1;REM_DIST 'REM_DIST' true true false 1 Text 0 0 ,First,#,T:\FS\Reference\GIS\r06_siu\data\veg\polygon,REM_DIST,-1,-1" # T:\FS\NFS\R06\Program\ResourceInfoMgmt\GIS\CSA2\Workspace\angigi\Converting_lib\Siuslaw\shapefiles\veg.shp</Process></lineage></DataProperties></Esri>
+	<idinfo>
+		<native Sync="TRUE">Microsoft Windows 2000 Version 5.2 (Build 3790) Service Pack 2; ESRI ArcCatalog 9.3.1.3000</native>
+		<descript>
+			<langdata>English</langdata>
+			<abstract>This is a photo-interpreted vegetation layer that is more detailed and done to higher more consistent standard than the forestwide vegetation layer (vege).
+Forest land is typed to a 5 acre minimum for federal and state ownership, 20 acre for private. </abstract>
+			<purpose>To provide better information on non-commercial and riparian stand conditions, for use in Watershed Analysis.</purpose>
+			<supplinf>The photo interperting was done by Will Koenitzer, and people trained by Will Koenitzer, to maintain consistancy.
+Photo interpreted from 1:12000 aerial photos flown 1989 - 1995. </supplinf>
+		</descript>
+		<citation>
+			<citeinfo>
+				<origin>Siuslaw National Forest</origin>
+				<pubdate>2 June 2003</pubdate>
+				<ftname Sync="TRUE">veg</ftname>
+				<geoform Sync="TRUE">vector digital data</geoform>
+				<pubtime>Unknown</pubtime>
+				<title>Vegetation - Typed by photo interpretation (piveg)</title>
+				<othercit>
+Typing Specification document: /fsapps/fsother/gis/dictionary/datafiles/vegtyping.html</othercit>
+				<origin>Will Koenitzer, Photo interepreter</origin><onlink Sync="TRUE">\\ds.fs.fed.us\EFS\\FS\NFS\R06\Program\ResourceInfoMgmt\GIS\CSA2\Workspace\angigi\Converting_lib\Siuslaw\shapefiles\veg.shp</onlink></citeinfo>
+		</citation>
+		<timeperd>
+			<current>ground condition</current>
+			<timeinfo>
+				<rngdates><begdate>1989</begdate><enddate>1995</enddate></rngdates></timeinfo>
+		</timeperd>
+		<status>
+			<progress>In work</progress>
+			<update>Annually</update>
+		</status>
+		<spdom>
+			<bounding>
+				<westbc Sync="TRUE">-124.241506</westbc>
+				<eastbc Sync="TRUE">-123.537250</eastbc>
+				<northbc Sync="TRUE">45.380861</northbc>
+				<southbc Sync="TRUE">43.681001</southbc>
+			</bounding>
+			<lboundng>
+				<leftbc Sync="TRUE">268139.868882</leftbc>
+				<rightbc Sync="TRUE">315088.561324</rightbc>
+				<bottombc Sync="TRUE">1076725.750887</bottombc>
+				<topbc Sync="TRUE">1263713.701239</topbc>
+			</lboundng>
+		</spdom>
+		<keywords>
+			<theme>
+				<themekt>None</themekt>
+				<themekey>Vegetation</themekey>
+				<themekey>photo interpreted</themekey>
+				<themekey>Stands</themekey>
+			</theme>
+			<place>
+				<placekey>Siuslaw</placekey>
+				<placekey>Oregon</placekey>
+				<placekt>None</placekt>
+				<placekey>Coast Range</placekey>
+			</place>
+			<stratum>
+				<stratkt>None</stratkt>
+			</stratum>
+			<temporal>
+				<tempkt>None</tempkt>
+			</temporal>
+		</keywords>
+		<accconst>None</accconst>
+		<useconst>None</useconst>
+		<natvform Sync="TRUE">Shapefile</natvform>
+		<ptcontac>
+			<cntinfo>
+				<cntaddr>
+					<address>PO Box 1148</address>
+					<addrtype>mailing address</addrtype>
+					<city>Corvallis</city>
+					<state>OR</state>
+					<postal>97339</postal>
+					<country>USA</country>
+				</cntaddr>
+				<cntvoice>541-750-7000</cntvoice>
+				<cnttdd>541-750-7006</cnttdd>
+				<cntfax>541-750-7234</cntfax>
+				<hours>8:00 am - 5:00 pm</hours>
+				<cntaddr>
+					<addrtype>physical address</addrtype>
+					<address>4077 Research Way</address>
+					<city>Corvallis</city>
+					<state>OR</state>
+					<postal>97339</postal>
+					<country>USA</country>
+				</cntaddr>
+				<cntorgp>
+					<cntorg>USDA Forest Service, Siuslaw National Forest</cntorg>
+					<cntper>Stu Johnston</cntper></cntorgp>
+				<cntpos>Silviculturist</cntpos>
+			</cntinfo>
+		</ptcontac>
+		<crossref>
+			<citeinfo>
+				<pubdate>Unknown</pubdate>
+				<pubtime>Unknown</pubtime>
+			</citeinfo>
+		</crossref>
+		<browse>
+			<browset>GIF</browset>
+			<browsen>File:///j:/fsfiles/ref/library/gis/siu/piveg/map.gif</browsen>
+		</browse>
+		<secinfo>
+			<secclass>Unclassified</secclass>
+			<secsys>None</secsys>
+			<sechandl>None</sechandl>
+		</secinfo>
+	</idinfo>
+	<metainfo>
+		<langmeta Sync="TRUE">en</langmeta>
+		<metstdn Sync="TRUE">FGDC Content Standards for Digital Geospatial Metadata</metstdn>
+		<metstdv Sync="TRUE">FGDC-STD-001-1998</metstdv>
+		<mettc Sync="TRUE">local time</mettc>
+		<metc>
+			<cntinfo>
+				<cntaddr>
+					<addrtype>mailing address</addrtype>
+					<city>Corvallis</city>
+					<state>OR</state>
+					<postal>97339</postal>
+					<address>PO Box 1148</address>
+					<country>USA</country>
+				</cntaddr>
+				<cntvoice>541-750-7000</cntvoice>
+				<cnttdd>541-750-7006</cnttdd>
+				<cntfax>541-750-7234</cntfax>
+				<hours>8:00 am - 5:00 pm</hours>
+				<cntaddr>
+					<addrtype>physical address</addrtype>
+					<address>4077 Research Way</address>
+					<city>Corvallis</city>
+					<state>OR</state>
+					<postal>97339</postal>
+					<country>USA</country>
+				</cntaddr>
+				<cntorgp>
+					<cntorg>USDA Forest Service, Siuslaw National Forest</cntorg>
+				</cntorgp>
+				<cntpos>GIS Coordinator</cntpos>
+			</cntinfo>
+		</metc>
+		<metd Sync="TRUE">20091104</metd>
+		<metsi>
+			<metsc>Unclassified</metsc>
+			<metscs>None</metscs>
+		</metsi>
+		<metrd>March 2002</metrd>
+		<metfrd>Unknown</metfrd>
+		<metac>None</metac>
+		<metuc>None</metuc>
+		<metextns><onlink Sync="TRUE">http://www.esri.com/metadata/esriprof80.html</onlink><metprof Sync="TRUE">ESRI Metadata Profile</metprof></metextns></metainfo>
+	<spdoinfo>
+		<direct Sync="TRUE">Vector</direct>
+		<ptvctinf>
+			<esriterm Name="veg">
+				<efeatyp Sync="TRUE">Simple</efeatyp>
+				<efeageom Sync="TRUE">Polygon</efeageom>
+				<esritopo Sync="TRUE">FALSE</esritopo>
+				<efeacnt Sync="TRUE">0</efeacnt>
+				<spindex Sync="TRUE">FALSE</spindex>
+				<linrefer Sync="TRUE">FALSE</linrefer>
+			</esriterm>
+			<sdtsterm Name="veg">
+				<sdtstype Sync="TRUE">G-polygon</sdtstype>
+				<ptvctcnt Sync="TRUE">0</ptvctcnt>
+			</sdtsterm>
+			<esriterm Name="label">
+				<efeatyp Sync="TRUE">Simple</efeatyp>
+				<efeageom Sync="TRUE">Label</efeageom>
+				<esritopo Sync="TRUE">FALSE</esritopo>
+				<efeacnt Sync="TRUE">17320</efeacnt>
+				<spindex Sync="TRUE">FALSE</spindex>
+				<linrefer Sync="TRUE">FALSE</linrefer>
+			</esriterm>
+			<sdtsterm Name="label">
+				<sdtstype Sync="TRUE">Label point</sdtstype>
+				<ptvctcnt Sync="TRUE">17320</ptvctcnt>
+			</sdtsterm>
+			<esriterm Name="polygon">
+				<efeatyp Sync="TRUE">Simple</efeatyp>
+				<efeageom Sync="TRUE">Polygon</efeageom>
+				<esritopo Sync="TRUE">TRUE</esritopo>
+				<efeacnt Sync="TRUE">17383</efeacnt>
+				<spindex Sync="TRUE">FALSE</spindex>
+				<linrefer Sync="TRUE">FALSE</linrefer>
+			</esriterm>
+			<sdtsterm Name="polygon">
+				<sdtstype Sync="TRUE">GT-polygon composed of chains</sdtstype>
+				<ptvctcnt Sync="TRUE">17383</ptvctcnt>
+			</sdtsterm>
+			<esriterm Name="tic">
+				<efeatyp Sync="TRUE">Simple</efeatyp>
+				<efeageom Sync="TRUE">Tic</efeageom>
+				<esritopo Sync="TRUE">FALSE</esritopo>
+				<efeacnt Sync="TRUE">1936</efeacnt>
+				<spindex Sync="TRUE">FALSE</spindex>
+				<linrefer Sync="TRUE">FALSE</linrefer>
+			</esriterm>
+			<sdtsterm Name="tic">
+				<sdtstype Sync="TRUE">Point</sdtstype>
+				<ptvctcnt Sync="TRUE">1936</ptvctcnt>
+			</sdtsterm>
+			<esriterm Name="annotation">
+				<efeatyp Sync="TRUE"></efeatyp>
+				<efeageom Sync="TRUE">Annotation</efeageom>
+				<esritopo Sync="TRUE">FALSE</esritopo>
+				<efeacnt Sync="TRUE">0</efeacnt>
+				<spindex Sync="TRUE">FALSE</spindex>
+				<linrefer Sync="TRUE">FALSE</linrefer>
+			</esriterm>
+			<sdtsterm Name="annotation">
+				<sdtstype Sync="TRUE">Label point</sdtstype>
+				<ptvctcnt Sync="TRUE">0</ptvctcnt>
+			</sdtsterm>
+		</ptvctinf>
+	</spdoinfo>
+	<spref>
+		<horizsys>
+			<cordsysn>
+				<geogcsn Sync="TRUE">GCS_North_American_1983</geogcsn>
+				<projcsn Sync="TRUE">NAD_1983_Albers</projcsn>
+			</cordsysn>
+			<planar>
+				<planci>
+					<plance Sync="TRUE">coordinate pair</plance>
+					<plandu Sync="TRUE">meters</plandu>
+					<coordrep>
+						<absres Sync="TRUE">0.000000</absres>
+						<ordres Sync="TRUE">0.000000</ordres>
+					</coordrep>
+				</planci>
+				<mapproj><mapprojn Sync="TRUE">Albers Conical Equal Area</mapprojn><albers><stdparll Sync="TRUE">43.000000</stdparll><stdparll Sync="TRUE">48.000000</stdparll><longcm Sync="TRUE">-120.000000</longcm><latprjo Sync="TRUE">34.000000</latprjo><feast Sync="TRUE">600000.000000</feast><fnorth Sync="TRUE">0.000000</fnorth></albers></mapproj></planar>
+			<geodetic>
+				<horizdn Sync="TRUE">North American Datum of 1983</horizdn>
+				<ellips Sync="TRUE">Geodetic Reference System 80</ellips>
+				<semiaxis Sync="TRUE">6378137.000000</semiaxis>
+				<denflat Sync="TRUE">298.257222</denflat>
+			</geodetic>
+		</horizsys>
+	</spref>
+	<eainfo>
+		<detailed Name="veg">
+			<attr>
+				<attrmfrq>As needed</attrmfrq>
+				<attrlabl Sync="TRUE">FID</attrlabl>
+				<attalias Sync="TRUE">FID</attalias>
+				<attrtype Sync="TRUE">OID</attrtype>
+				<attwidth Sync="TRUE">4</attwidth>
+				<atprecis Sync="TRUE">0</atprecis>
+				<attscale Sync="TRUE">0</attscale>
+				<attrdef Sync="TRUE">Internal feature number.</attrdef>
+				<attrdefs Sync="TRUE">ESRI</attrdefs>
+				<attrdomv>
+					<udom Sync="TRUE">Sequential unique whole numbers that are automatically generated.</udom>
+				</attrdomv>
+			</attr>
+			<enttyp>
+				<enttypl Sync="TRUE">veg</enttypl>
+				<enttypt Sync="TRUE">Feature Class</enttypt>
+				<enttypc Sync="TRUE">0</enttypc>
+			</enttyp>
+			<attr>
+				<attrlabl Sync="TRUE">Shape</attrlabl>
+				<attalias Sync="TRUE">Shape</attalias>
+				<attrtype Sync="TRUE">Geometry</attrtype>
+				<attwidth Sync="TRUE">0</attwidth>
+				<atprecis Sync="TRUE">0</atprecis>
+				<attscale Sync="TRUE">0</attscale>
+				<attrdef Sync="TRUE">Feature geometry.</attrdef>
+				<attrdefs Sync="TRUE">ESRI</attrdefs>
+				<attrdomv>
+					<udom Sync="TRUE">Coordinates defining the features.</udom>
+				</attrdomv>
+			</attr>
+			<attr>
+				<attrlabl Sync="TRUE">AREA</attrlabl>
+				<attwidth Sync="TRUE">19</attwidth>
+				<atoutwid Sync="TRUE">18</atoutwid>
+				<attrtype Sync="TRUE">Float</attrtype>
+				<attrdef Sync="TRUE">Area of feature in internal units squared.</attrdef>
+				<attrdefs Sync="TRUE">ESRI</attrdefs>
+				<attrdomv>
+					<udom Sync="TRUE">Positive real numbers that are automatically generated.</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">AREA</attalias><atnumdec Sync="TRUE">11</atnumdec></attr>
+			<attr>
+				<attrlabl Sync="TRUE">PERIMETER</attrlabl>
+				<attwidth Sync="TRUE">19</attwidth>
+				<atoutwid Sync="TRUE">18</atoutwid>
+				<attrtype Sync="TRUE">Float</attrtype>
+				<attrdef Sync="TRUE">Perimeter of feature in internal units.</attrdef>
+				<attrdefs Sync="TRUE">ESRI</attrdefs>
+				<attrdomv>
+					<udom Sync="TRUE">Positive real numbers that are automatically generated.</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">PERIMETER</attalias><atnumdec Sync="TRUE">11</atnumdec></attr>
+			<attr><attrlabl Sync="TRUE">VEG_</attrlabl><attalias Sync="TRUE">VEG_</attalias><attrtype Sync="TRUE">Number</attrtype><attwidth Sync="TRUE">9</attwidth></attr><attr><attrlabl Sync="TRUE">VEG_ID</attrlabl><attalias Sync="TRUE">VEG_ID</attalias><attrtype Sync="TRUE">Number</attrtype><attwidth Sync="TRUE">9</attwidth></attr><attr>
+				<attrlabl Sync="TRUE">PHOTO_NO</attrlabl>
+				<attwidth Sync="TRUE">20</attwidth>
+				<atoutwid Sync="TRUE">20</atoutwid>
+				<attrtype Sync="TRUE">String</attrtype>
+				<attrdef>The number of the photo the polygon was digitized from.</attrdef>
+				<attalias Sync="TRUE">PHOTO_NO</attalias></attr>
+			<attr>
+				<attrlabl Sync="TRUE">STAND_TAG</attrlabl>
+				<attwidth Sync="TRUE">9</attwidth>
+				<atoutwid Sync="TRUE">5</atoutwid>
+				<attrtype Sync="TRUE">Number</attrtype>
+				<attrdef>Unique number to identify the stand and link it to the database.</attrdef>
+				<attrdomv>
+					<udom>5 digit integers</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">STAND_TAG</attalias></attr>
+			<attr>
+				<attrlabl Sync="TRUE">LAY_TYPE</attrlabl>
+				<attwidth Sync="TRUE">4</attwidth>
+				<atoutwid Sync="TRUE">4</atoutwid>
+				<attrtype Sync="TRUE">String</attrtype>
+				<attrdomv>
+					<edom>
+						<edomv>MGD</edomv>
+						<edomvd>Manged stand </edomvd>
+					</edom>
+					<edom>
+						<edomv>NAT</edomv>
+						<edomvd>Natural stand </edomvd>
+					</edom>
+					<edom>
+						<edomv>XAD</edomv>
+						<edomvd>Forest Service administration site </edomvd>
+					</edom>
+					<edom>
+						<edomv>XAG</edomv>
+						<edomvd>Agricultural (excluding orchard and pastures)</edomvd>
+					</edom>
+					<edom>
+						<edomv>XBR</edomv>
+						<edomvd>Brush </edomvd>
+					</edom>
+					<edom>
+						<edomv>XBT</edomv>
+						<edomvd>Buildings in forested areas </edomvd>
+					</edom>
+					<edom>
+						<edomv>XCT</edomv>
+						<edomvd>Campgrounds in forested settings </edomvd>
+					</edom>
+					<edom>
+						<edomv>XME</edomv>
+						<edomvd>Natural occuring meadows, grasslands </edomvd>
+					</edom>
+					<edom>
+						<edomv>XPA</edomv>
+						<edomvd>Pastures (irrigated and non-irrigated)</edomvd>
+					</edom>
+					<edom>
+						<edomv>XRE</edomv>
+						<edomvd>Residential, other than forested settings </edomvd>
+					</edom>
+					<edom>
+						<edomv>XRN</edomv>
+						<edomvd>Natural occuring rock, cliffs, talus </edomvd>
+					</edom>
+					<edom>
+						<edomv>XRP</edomv>
+						<edomvd>Rock pit, quarry </edomvd>
+					</edom>
+					<edom>
+						<edomv>XRT</edomv>
+						<edomvd>Residential areas in forested settings </edomvd>
+					</edom>
+					<edom>
+						<edomv>XSA</edomv>
+						<edomvd>Sand </edomvd>
+					</edom>
+					<edom>
+						<edomv>XTL</edomv>
+						<edomvd>Transmission lines </edomvd>
+					</edom>
+					<edom>
+						<edomv>XWA</edomv>
+						<edomvd>Lakes, Bodies of water covering more then 10 acres </edomvd>
+					</edom>
+					<edom>
+						<edomv>XWL</edomv>
+						<edomvd>Wetlands</edomvd>
+					</edom>
+					<edom>
+						<edomv>XWP</edomv>
+						<edomvd>Ponds, Bodies of water covering 10 acres or less</edomvd>
+					</edom>
+					<edom>
+						<edomv>XWS</edomv>
+						<edomvd>Streams, Rivers </edomvd>
+					</edom>
+				</attrdomv>
+				<attrdef>Layer type classification  </attrdef>
+				<attalias Sync="TRUE">LAY_TYPE</attalias></attr>
+			<attr>
+				<attrlabl Sync="TRUE">YR_ORIG</attrlabl>
+				<attwidth Sync="TRUE">4</attwidth>
+				<atoutwid Sync="TRUE">4</atoutwid>
+				<attrtype Sync="TRUE">Number</attrtype>
+				<attrdef>Year of Origin (planted)</attrdef>
+				<attrdomv>
+					<udom>4 digit integer representing a year</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">YR_ORIG</attalias></attr>
+			<attr>
+				<attrlabl Sync="TRUE">TOT_CLOS</attrlabl>
+				<attwidth Sync="TRUE">4</attwidth>
+				<atoutwid Sync="TRUE">3</atoutwid>
+				<attrtype Sync="TRUE">Number</attrtype>
+				<attrdef>The total percent crown closure of all layers. should equal the sum of crown closure for layers 1 - 3.</attrdef>
+				<attrdomv>
+					<rdom>
+						<rdommin>0</rdommin>
+						<rdommax>100</rdommax>
+					</rdom>
+				</attrdomv>
+				<attalias Sync="TRUE">TOT_CLOS</attalias></attr>
+			<attr>
+				<attrlabl Sync="TRUE">L1_CLOS</attrlabl>
+				<attwidth Sync="TRUE">4</attwidth>
+				<atoutwid Sync="TRUE">3</atoutwid>
+				<attrtype Sync="TRUE">Number</attrtype>
+				<attrdef>Percent crown closure for the layer</attrdef>
+				<attrdomv><rdom><rdommin>0</rdommin><rdommax>100</rdommax></rdom></attrdomv><attalias Sync="TRUE">L1_CLOS</attalias></attr>
+			<attr>
+				<attrlabl Sync="TRUE">L1_SZCL</attrlabl>
+				<attwidth Sync="TRUE">4</attwidth>
+				<atoutwid Sync="TRUE">2</atoutwid>
+				<attrtype Sync="TRUE">Number</attrtype>
+				<attrdomv>
+					<edom>
+						<edomv>1</edomv>
+						<edomvd>Seedlings &lt;1.0" dbh and &lt;4.5' tall </edomvd>
+					</edom>
+					<edom>
+						<edomv>2</edomv>
+						<edomvd>Seedlings/saplings mixed </edomvd>
+					</edom>
+					<edom>
+						<edomv>3</edomv>
+						<edomvd>Saplings 1.0-4.9" dbh 4.5-20' tall </edomvd>
+					</edom>
+					<edom>
+						<edomv>4</edomv>
+						<edomvd>Saplings/poles mixed </edomvd>
+					</edom>
+					<edom>
+						<edomv>5</edomv>
+						<edomvd>Poles 5.0-8.9" dbh and &gt;20' </edomvd>
+					</edom>
+					<edom>
+						<edomv>6</edomv>
+						<edomvd>Poles/small mixed </edomvd>
+					</edom>
+					<edom>
+						<edomv>7</edomv>
+						<edomvd>Small trees 9.0-20.1" dbh </edomvd>
+					</edom>
+					<edom>
+						<edomv>8</edomv>
+						<edomvd>Small/medium mixed </edomvd>
+					</edom>
+					<edom>
+						<edomv>9</edomv>
+						<edomvd>Medium trees 21.0-31.9" dbh </edomvd>
+					</edom>
+					<edom>
+						<edomv>10</edomv>
+						<edomvd>Medium/large mixed </edomvd>
+					</edom>
+					<edom>
+						<edomv>11</edomv>
+						<edomvd>Large trees 32.0-47.9" dbh </edomvd>
+					</edom>
+					<edom>
+						<edomv>12</edomv>
+						<edomvd>Large/giant mixed </edomvd>
+					</edom>
+					<edom>
+						<edomv>13</edomv>
+						<edomvd>Giant trees 48.0" or greater dbh </edomvd>
+					</edom>
+				</attrdomv>
+				<attrdef>The size class of the layer</attrdef>
+				<attalias Sync="TRUE">L1_SZCL</attalias></attr>
+			<attr>
+				<attrlabl Sync="TRUE">L1_SPP1</attrlabl>
+				<attwidth Sync="TRUE">5</attwidth>
+				<atoutwid Sync="TRUE">5</atoutwid>
+				<attrtype Sync="TRUE">String</attrtype>
+				<attrdomv>
+					<edom>
+						<edomv>ABPR</edomv>
+						<edomvd>noble fir</edomvd>
+					</edom>
+					<edom>
+						<edomv>ACMA</edomv>
+						<edomvd>bigleaf maple</edomvd>
+					</edom>
+					<edom>
+						<edomv>ALRU</edomv>
+						<edomvd>red alder</edomvd>
+					</edom>
+					<edom>
+						<edomv>PICO</edomv>
+						<edomvd>shore pine</edomvd>
+					</edom>
+					<edom>
+						<edomv>PISI</edomv>
+						<edomvd>Sitka spruce</edomvd>
+					</edom>
+					<edom>
+						<edomv>PSME</edomv>
+						<edomvd>Douglas-fir</edomvd>
+					</edom>
+					<edom>
+						<edomv>THPL</edomv>
+						<edomvd>Western red-cedar</edomvd>
+					</edom>
+					<edom>
+						<edomv>TSHE</edomv>
+						<edomvd>Western hemlock</edomvd>
+					</edom>
+					<edom><edomv>TREE</edomv><edomvd>unknown tree species</edomvd></edom><edom><edomv>TREED</edomv><edomvd>Unknown deciduous tree species</edomvd></edom><edom><edomv>TREEC </edomv><edomvd>Unknown conifer tree species</edomvd></edom></attrdomv>
+				<attrdef>The most common species in the layer.</attrdef>
+				<attalias Sync="TRUE">L1_SPP1</attalias></attr>
+			<attr>
+				<attrlabl Sync="TRUE">L1_SPP2</attrlabl>
+				<attwidth Sync="TRUE">5</attwidth>
+				<atoutwid Sync="TRUE">5</atoutwid>
+				<attrtype Sync="TRUE">String</attrtype>
+				<attrdomv>
+					<edom>
+						<edomv>ABPR</edomv>
+						<edomvd>noble fir</edomvd>
+					</edom>
+					<edom>
+						<edomv>ACMA</edomv>
+						<edomvd>bigleaf maple</edomvd>
+					</edom>
+					<edom>
+						<edomv>ALRU</edomv>
+						<edomvd>red alder</edomvd>
+					</edom>
+					<edom>
+						<edomv>PICO</edomv>
+						<edomvd>shore pine</edomvd>
+					</edom>
+					<edom>
+						<edomv>PISI</edomv>
+						<edomvd>Sitka spruce</edomvd>
+					</edom>
+					<edom>
+						<edomv>PSME</edomv>
+						<edomvd>Douglas-fir</edomvd>
+					</edom>
+					<edom>
+						<edomv>THPL</edomv>
+						<edomvd>Western red-cedar</edomvd>
+					</edom>
+					<edom>
+						<edomv>TSHE</edomv>
+						<edomvd>Western hemlock</edomvd>
+					</edom>
+					<edom><edomv>TREE</edomv>
+						<edomvd>unknown tree species</edomvd>
+					</edom>
+					<edom><edomv>TREED</edomv>
+						<edomvd>Unknown deciduous tree species</edomvd>
+					</edom>
+					<edom><edomv>TREEC </edomv>
+						<edomvd>Unknown conifer tree species</edomvd>
+					</edom></attrdomv>
+				<attrdef>The second most common species in the layer.</attrdef>
+				<attalias Sync="TRUE">L1_SPP2</attalias></attr>
+			<attr>
+				<attrlabl Sync="TRUE">L1_SPP3</attrlabl>
+				<attwidth Sync="TRUE">5</attwidth>
+				<atoutwid Sync="TRUE">5</atoutwid>
+				<attrtype Sync="TRUE">String</attrtype>
+				<attrdomv>
+					<edom>
+						<edomv>ABPR</edomv>
+						<edomvd>noble fir</edomvd>
+					</edom>
+					<edom>
+						<edomv>ACMA</edomv>
+						<edomvd>bigleaf maple</edomvd>
+					</edom>
+					<edom>
+						<edomv>ALRU</edomv>
+						<edomvd>red alder</edomvd>
+					</edom>
+					<edom>
+						<edomv>PICO</edomv>
+						<edomvd>shore pine</edomvd>
+					</edom>
+					<edom>
+						<edomv>PISI</edomv>
+						<edomvd>Sitka spruce</edomvd>
+					</edom>
+					<edom>
+						<edomv>PSME</edomv>
+						<edomvd>Douglas-fir</edomvd>
+					</edom>
+					<edom>
+						<edomv>THPL</edomv>
+						<edomvd>Western red-cedar</edomvd>
+					</edom>
+					<edom>
+						<edomv>TSHE</edomv>
+						<edomvd>Western hemlock</edomvd>
+					</edom>
+					<edom><edomv>TREE</edomv>
+						<edomvd>unknown tree species</edomvd>
+					</edom>
+					<edom><edomv>TREED</edomv>
+						<edomvd>Unknown deciduous tree species</edomvd>
+					</edom>
+					<edom><edomv>TREEC </edomv>
+						<edomvd>Unknown conifer tree species</edomvd>
+					</edom></attrdomv>
+				<attrdef>The third most common species in the layer.</attrdef>
+				<attalias Sync="TRUE">L1_SPP3</attalias></attr>
+			<attr>
+				<attrlabl Sync="TRUE">L1_CLUMP</attrlabl>
+				<attwidth Sync="TRUE">1</attwidth>
+				<atoutwid Sync="TRUE">1</atoutwid>
+				<attrtype Sync="TRUE">String</attrtype>
+				<attrdomv>
+					<edom>
+						<edomv>N</edomv>
+						<edomvd>No, not clumpy </edomvd>
+					</edom>
+					<edom>
+						<edomv>Y</edomv>
+						<edomvd>Yes, clumpy</edomvd>
+					</edom>
+				</attrdomv>
+				<attrdef>Clumpiness describes the overall geometry of the layer. A layer is clumpy if the stocking is medium to high within clumps and low to absent over 50% of the area occupied by the layer. A ragged canopy layer is a good candidate for a clumpy classification.</attrdef>
+				<attalias Sync="TRUE">L1_CLUMP</attalias></attr>
+			<attr>
+				<attrlabl Sync="TRUE">L1_SNAG</attrlabl>
+				<attwidth Sync="TRUE">4</attwidth>
+				<atoutwid Sync="TRUE">1</atoutwid>
+				<attrtype Sync="TRUE">Number</attrtype>
+				<attrdomv>
+					<edom>
+						<edomv>0</edomv>
+						<edomvd>Less than 10% snags compared to the total trees in the layer</edomvd>
+					</edom>
+					<edom>
+						<edomv>1</edomv>
+						<edomvd>10% to 50% (usually caused by fire or pest)</edomvd>
+					</edom>
+					<edom>
+						<edomv>2</edomv>
+						<edomvd>More than 50% (fire or pest) </edomvd>
+					</edom>
+				</attrdomv>
+				<attrdef>Code indicating the percentage of snags in the layer.</attrdef>
+				<attalias Sync="TRUE">L1_SNAG</attalias></attr>
+			<attr>
+				<attrlabl Sync="TRUE">L2_CLOS</attrlabl>
+				<attwidth Sync="TRUE">4</attwidth>
+				<atoutwid Sync="TRUE">3</atoutwid>
+				<attrtype Sync="TRUE">Number</attrtype>
+				<attrdef>Percent crown closure for the layer</attrdef>
+				<attrdomv><rdom><rdommin>0</rdommin><rdommax>100</rdommax></rdom></attrdomv><attalias Sync="TRUE">L2_CLOS</attalias></attr>
+			<attr>
+				<attrlabl Sync="TRUE">L2_SZCL</attrlabl>
+				<attwidth Sync="TRUE">4</attwidth>
+				<atoutwid Sync="TRUE">2</atoutwid>
+				<attrtype Sync="TRUE">Number</attrtype>
+				<attrdomv>
+					<edom>
+						<edomv>1</edomv>
+						<edomvd>Seedlings &lt;1.0" dbh and &lt;4.5' tall </edomvd>
+					</edom>
+					<edom>
+						<edomv>2</edomv>
+						<edomvd>Seedlings/saplings mixed </edomvd>
+					</edom>
+					<edom>
+						<edomv>3</edomv>
+						<edomvd>Saplings 1.0-4.9" dbh 4.5-20' tall </edomvd>
+					</edom>
+					<edom>
+						<edomv>4</edomv>
+						<edomvd>Saplings/poles mixed </edomvd>
+					</edom>
+					<edom>
+						<edomv>5</edomv>
+						<edomvd>Poles 5.0-8.9" dbh and &gt;20' </edomvd>
+					</edom>
+					<edom>
+						<edomv>6</edomv>
+						<edomvd>Poles/small mixed </edomvd>
+					</edom>
+					<edom>
+						<edomv>7</edomv>
+						<edomvd>Small trees 9.0-20.1" dbh </edomvd>
+					</edom>
+					<edom>
+						<edomv>8</edomv>
+						<edomvd>Small/medium mixed </edomvd>
+					</edom>
+					<edom>
+						<edomv>9</edomv>
+						<edomvd>Medium trees 21.0-31.9" dbh </edomvd>
+					</edom>
+					<edom>
+						<edomv>10</edomv>
+						<edomvd>Medium/large mixed </edomvd>
+					</edom>
+					<edom>
+						<edomv>11</edomv>
+						<edomvd>Large trees 32.0-47.9" dbh </edomvd>
+					</edom>
+					<edom>
+						<edomv>12</edomv>
+						<edomvd>Large/giant mixed </edomvd>
+					</edom>
+					<edom>
+						<edomv>13</edomv>
+						<edomvd>Giant trees 48.0" or greater dbh </edomvd>
+					</edom>
+				</attrdomv>
+				<attrdef>The size class of the layer</attrdef>
+				<attalias Sync="TRUE">L2_SZCL</attalias></attr>
+			<attr>
+				<attrlabl Sync="TRUE">L2_SPP1</attrlabl>
+				<attwidth Sync="TRUE">5</attwidth>
+				<atoutwid Sync="TRUE">5</atoutwid>
+				<attrtype Sync="TRUE">String</attrtype>
+				<attrdomv>
+					<edom>
+						<edomv>ABPR</edomv>
+						<edomvd>noble fir</edomvd>
+					</edom>
+					<edom>
+						<edomv>ACMA</edomv>
+						<edomvd>bigleaf maple</edomvd>
+					</edom>
+					<edom>
+						<edomv>ALRU</edomv>
+						<edomvd>red alder</edomvd>
+					</edom>
+					<edom>
+						<edomv>PICO</edomv>
+						<edomvd>shore pine</edomvd>
+					</edom>
+					<edom>
+						<edomv>PISI</edomv>
+						<edomvd>Sitka spruce</edomvd>
+					</edom>
+					<edom>
+						<edomv>PSME</edomv>
+						<edomvd>Douglas-fir</edomvd>
+					</edom>
+					<edom>
+						<edomv>THPL</edomv>
+						<edomvd>Western red-cedar</edomvd>
+					</edom>
+					<edom>
+						<edomv>TSHE</edomv>
+						<edomvd>Western hemlock</edomvd>
+					</edom>
+					<edom><edomv>TREE</edomv>
+						<edomvd>unknown tree species</edomvd>
+					</edom>
+					<edom><edomv>TREED</edomv>
+						<edomvd>Unknown deciduous tree species</edomvd>
+					</edom>
+					<edom><edomv>TREEC </edomv>
+						<edomvd>Unknown conifer tree species</edomvd>
+					</edom></attrdomv>
+				<attrdef>The most common species in the layer.</attrdef>
+				<attalias Sync="TRUE">L2_SPP1</attalias></attr>
+			<attr>
+				<attrlabl Sync="TRUE">L2_SPP2</attrlabl>
+				<attwidth Sync="TRUE">5</attwidth>
+				<atoutwid Sync="TRUE">5</atoutwid>
+				<attrtype Sync="TRUE">String</attrtype>
+				<attrdomv>
+					<edom>
+						<edomv>ABPR</edomv>
+						<edomvd>noble fir</edomvd>
+					</edom>
+					<edom>
+						<edomv>ACMA</edomv>
+						<edomvd>bigleaf maple</edomvd>
+					</edom>
+					<edom>
+						<edomv>ALRU</edomv>
+						<edomvd>red alder</edomvd>
+					</edom>
+					<edom>
+						<edomv>PICO</edomv>
+						<edomvd>shore pine</edomvd>
+					</edom>
+					<edom>
+						<edomv>PISI</edomv>
+						<edomvd>Sitka spruce</edomvd>
+					</edom>
+					<edom>
+						<edomv>PSME</edomv>
+						<edomvd>Douglas-fir</edomvd>
+					</edom>
+					<edom>
+						<edomv>THPL</edomv>
+						<edomvd>Western red-cedar</edomvd>
+					</edom>
+					<edom>
+						<edomv>TSHE</edomv>
+						<edomvd>Western hemlock</edomvd>
+					</edom>
+					<edom><edomv>TREE</edomv>
+						<edomvd>unknown tree species</edomvd>
+					</edom>
+					<edom><edomv>TREED</edomv>
+						<edomvd>Unknown deciduous tree species</edomvd>
+					</edom>
+					<edom><edomv>TREEC </edomv>
+						<edomvd>Unknown conifer tree species</edomvd>
+					</edom></attrdomv>
+				<attrdef>The second most common species in the layer.</attrdef>
+				<attalias Sync="TRUE">L2_SPP2</attalias></attr>
+			<attr>
+				<attrlabl Sync="TRUE">L2_SPP3</attrlabl>
+				<attwidth Sync="TRUE">5</attwidth>
+				<atoutwid Sync="TRUE">5</atoutwid>
+				<attrtype Sync="TRUE">String</attrtype>
+				<attrdomv>
+					<edom>
+						<edomv>ABPR</edomv>
+						<edomvd>noble fir</edomvd>
+					</edom>
+					<edom>
+						<edomv>ACMA</edomv>
+						<edomvd>bigleaf maple</edomvd>
+					</edom>
+					<edom>
+						<edomv>ALRU</edomv>
+						<edomvd>red alder</edomvd>
+					</edom>
+					<edom>
+						<edomv>PICO</edomv>
+						<edomvd>shore pine</edomvd>
+					</edom>
+					<edom>
+						<edomv>PISI</edomv>
+						<edomvd>Sitka spruce</edomvd>
+					</edom>
+					<edom>
+						<edomv>PSME</edomv>
+						<edomvd>Douglas-fir</edomvd>
+					</edom>
+					<edom>
+						<edomv>THPL</edomv>
+						<edomvd>Western red-cedar</edomvd>
+					</edom>
+					<edom>
+						<edomv>TSHE</edomv>
+						<edomvd>Western hemlock</edomvd>
+					</edom>
+					<edom><edomv>TREE</edomv>
+						<edomvd>unknown tree species</edomvd>
+					</edom>
+					<edom><edomv>TREED</edomv>
+						<edomvd>Unknown deciduous tree species</edomvd>
+					</edom>
+					<edom><edomv>TREEC </edomv>
+						<edomvd>Unknown conifer tree species</edomvd>
+					</edom></attrdomv>
+				<attrdef>The third most common species in the layer.</attrdef>
+				<attalias Sync="TRUE">L2_SPP3</attalias></attr>
+			<attr>
+				<attrlabl Sync="TRUE">L2_CLUMP</attrlabl>
+				<attwidth Sync="TRUE">1</attwidth>
+				<atoutwid Sync="TRUE">1</atoutwid>
+				<attrtype Sync="TRUE">String</attrtype>
+				<attrdomv>
+					<edom>
+						<edomv>N</edomv>
+						<edomvd>No, not clumpy </edomvd>
+					</edom>
+					<edom>
+						<edomv>Y</edomv>
+						<edomvd>Yes, clumpy</edomvd>
+					</edom>
+				</attrdomv>
+				<attrdef>Clumpiness describes the overall geometry of the layer. A layer is clumpy if the stocking is medium to high within clumps and low to absent over 50% of the area occupied by the layer. A ragged canopy layer is a good candidate for a clumpy classification.</attrdef>
+				<attalias Sync="TRUE">L2_CLUMP</attalias></attr>
+			<attr>
+				<attrlabl Sync="TRUE">L2_SNAG</attrlabl>
+				<attwidth Sync="TRUE">4</attwidth>
+				<atoutwid Sync="TRUE">1</atoutwid>
+				<attrtype Sync="TRUE">Number</attrtype>
+				<attrdomv>
+					<edom>
+						<edomv>0</edomv>
+						<edomvd>Less than 10% snags compared to the total trees in layer</edomvd>
+					</edom>
+					<edom>
+						<edomv>1</edomv>
+						<edomvd>10% to 50% (usually caused by fire or pest)</edomvd>
+					</edom>
+					<edom>
+						<edomv>2</edomv>
+						<edomvd>More than 50% (fire or pest) </edomvd>
+					</edom>
+				</attrdomv>
+				<attrdef>Code indicating the percentage of snags in the layer.</attrdef>
+				<attalias Sync="TRUE">L2_SNAG</attalias></attr>
+			<attr>
+				<attrlabl Sync="TRUE">L3_CLOS</attrlabl>
+				<attwidth Sync="TRUE">4</attwidth>
+				<atoutwid Sync="TRUE">3</atoutwid>
+				<attrtype Sync="TRUE">Number</attrtype>
+				<attrdef>Percent crown closure for the layer</attrdef>
+				<attrdomv><rdom><rdommin>0</rdommin><rdommax>100</rdommax></rdom></attrdomv><attalias Sync="TRUE">L3_CLOS</attalias></attr>
+			<attr>
+				<attrlabl Sync="TRUE">L3_SZCL</attrlabl>
+				<attwidth Sync="TRUE">4</attwidth>
+				<atoutwid Sync="TRUE">2</atoutwid>
+				<attrtype Sync="TRUE">Number</attrtype>
+				<attrdomv>
+					<edom>
+						<edomv>1</edomv>
+						<edomvd>Seedlings &lt;1.0" dbh and &lt;4.5' tall </edomvd>
+					</edom>
+					<edom>
+						<edomv>2</edomv>
+						<edomvd>Seedlings/saplings mixed </edomvd>
+					</edom>
+					<edom>
+						<edomv>3</edomv>
+						<edomvd>Saplings 1.0-4.9" dbh 4.5-20' tall </edomvd>
+					</edom>
+					<edom>
+						<edomv>4</edomv>
+						<edomvd>Saplings/poles mixed </edomvd>
+					</edom>
+					<edom>
+						<edomv>5</edomv>
+						<edomvd>Poles 5.0-8.9" dbh and &gt;20' </edomvd>
+					</edom>
+					<edom>
+						<edomv>6</edomv>
+						<edomvd>Poles/small mixed </edomvd>
+					</edom>
+					<edom>
+						<edomv>7</edomv>
+						<edomvd>Small trees 9.0-20.1" dbh </edomvd>
+					</edom>
+					<edom>
+						<edomv>8</edomv>
+						<edomvd>Small/medium mixed </edomvd>
+					</edom>
+					<edom>
+						<edomv>9</edomv>
+						<edomvd>Medium trees 21.0-31.9" dbh </edomvd>
+					</edom>
+					<edom>
+						<edomv>10</edomv>
+						<edomvd>Medium/large mixed </edomvd>
+					</edom>
+					<edom>
+						<edomv>11</edomv>
+						<edomvd>Large trees 32.0-47.9" dbh </edomvd>
+					</edom>
+					<edom>
+						<edomv>12</edomv>
+						<edomvd>Large/giant mixed </edomvd>
+					</edom>
+					<edom>
+						<edomv>13</edomv>
+						<edomvd>Giant trees 48.0" or greater dbh </edomvd>
+					</edom>
+				</attrdomv>
+				<attrdef>The size class of the layer</attrdef>
+				<attalias Sync="TRUE">L3_SZCL</attalias></attr>
+			<attr>
+				<attrlabl Sync="TRUE">L3_SPP1</attrlabl>
+				<attwidth Sync="TRUE">5</attwidth>
+				<atoutwid Sync="TRUE">5</atoutwid>
+				<attrtype Sync="TRUE">String</attrtype>
+				<attrdomv>
+					<edom>
+						<edomv>ABPR</edomv>
+						<edomvd>noble fir</edomvd>
+					</edom>
+					<edom>
+						<edomv>ACMA</edomv>
+						<edomvd>bigleaf maple</edomvd>
+					</edom>
+					<edom>
+						<edomv>ALRU</edomv>
+						<edomvd>red alder</edomvd>
+					</edom>
+					<edom>
+						<edomv>PICO</edomv>
+						<edomvd>shore pine</edomvd>
+					</edom>
+					<edom>
+						<edomv>PISI</edomv>
+						<edomvd>Sitka spruce</edomvd>
+					</edom>
+					<edom>
+						<edomv>PSME</edomv>
+						<edomvd>Douglas-fir</edomvd>
+					</edom>
+					<edom>
+						<edomv>THPL</edomv>
+						<edomvd>Western red-cedar</edomvd>
+					</edom>
+					<edom>
+						<edomv>TSHE</edomv>
+						<edomvd>Western hemlock</edomvd>
+					</edom>
+					<edom><edomv>TREE</edomv>
+						<edomvd>unknown tree species</edomvd>
+					</edom>
+					<edom><edomv>TREED</edomv>
+						<edomvd>Unknown deciduous tree species</edomvd>
+					</edom>
+					<edom><edomv>TREEC </edomv>
+						<edomvd>Unknown conifer tree species</edomvd>
+					</edom></attrdomv>
+				<attrdef>The most common species in the layer.</attrdef>
+				<attalias Sync="TRUE">L3_SPP1</attalias></attr>
+			<attr>
+				<attrlabl Sync="TRUE">L3_SPP2</attrlabl>
+				<attwidth Sync="TRUE">5</attwidth>
+				<atoutwid Sync="TRUE">5</atoutwid>
+				<attrtype Sync="TRUE">String</attrtype>
+				<attrdomv>
+					<edom>
+						<edomv>ABPR</edomv>
+						<edomvd>noble fir</edomvd>
+					</edom>
+					<edom>
+						<edomv>ACMA</edomv>
+						<edomvd>bigleaf maple</edomvd>
+					</edom>
+					<edom>
+						<edomv>ALRU</edomv>
+						<edomvd>red alder</edomvd>
+					</edom>
+					<edom>
+						<edomv>PICO</edomv>
+						<edomvd>shore pine</edomvd>
+					</edom>
+					<edom>
+						<edomv>PISI</edomv>
+						<edomvd>Sitka spruce</edomvd>
+					</edom>
+					<edom>
+						<edomv>PSME</edomv>
+						<edomvd>Douglas-fir</edomvd>
+					</edom>
+					<edom>
+						<edomv>THPL</edomv>
+						<edomvd>Western red-cedar</edomvd>
+					</edom>
+					<edom>
+						<edomv>TSHE</edomv>
+						<edomvd>Western hemlock</edomvd>
+					</edom>
+					<edom><edomv>TREE</edomv>
+						<edomvd>unknown tree species</edomvd>
+					</edom>
+					<edom><edomv>TREED</edomv>
+						<edomvd>Unknown deciduous tree species</edomvd>
+					</edom>
+					<edom><edomv>TREEC </edomv>
+						<edomvd>Unknown conifer tree species</edomvd>
+					</edom></attrdomv>
+				<attrdef>The second most common species in the layer.</attrdef>
+				<attalias Sync="TRUE">L3_SPP2</attalias></attr>
+			<attr>
+				<attrlabl Sync="TRUE">L3_SPP3</attrlabl>
+				<attwidth Sync="TRUE">5</attwidth>
+				<atoutwid Sync="TRUE">5</atoutwid>
+				<attrtype Sync="TRUE">String</attrtype>
+				<attrdomv>
+					<edom>
+						<edomv>ABPR</edomv>
+						<edomvd>noble fir</edomvd>
+					</edom>
+					<edom>
+						<edomv>ACMA</edomv>
+						<edomvd>bigleaf maple</edomvd>
+					</edom>
+					<edom>
+						<edomv>ALRU</edomv>
+						<edomvd>red alder</edomvd>
+					</edom>
+					<edom>
+						<edomv>PICO</edomv>
+						<edomvd>shore pine</edomvd>
+					</edom>
+					<edom>
+						<edomv>PISI</edomv>
+						<edomvd>Sitka spruce</edomvd>
+					</edom>
+					<edom>
+						<edomv>PSME</edomv>
+						<edomvd>Douglas-fir</edomvd>
+					</edom>
+					<edom>
+						<edomv>THPL</edomv>
+						<edomvd>Western red-cedar</edomvd>
+					</edom>
+					<edom>
+						<edomv>TSHE</edomv>
+						<edomvd>Western hemlock</edomvd>
+					</edom>
+					<edom><edomv>TREE</edomv>
+						<edomvd>unknown tree species</edomvd>
+					</edom>
+					<edom><edomv>TREED</edomv>
+						<edomvd>Unknown deciduous tree species</edomvd>
+					</edom>
+					<edom><edomv>TREEC </edomv>
+						<edomvd>Unknown conifer tree species</edomvd>
+					</edom></attrdomv>
+				<attrdef>The third most common species in the layer.</attrdef>
+				<attalias Sync="TRUE">L3_SPP3</attalias></attr>
+			<attr>
+				<attrlabl Sync="TRUE">L3_CLUMP</attrlabl>
+				<attwidth Sync="TRUE">1</attwidth>
+				<atoutwid Sync="TRUE">1</atoutwid>
+				<attrtype Sync="TRUE">String</attrtype>
+				<attrdomv>
+					<edom>
+						<edomv>N</edomv>
+						<edomvd>No, not clumpy </edomvd>
+					</edom>
+					<edom>
+						<edomv>Y</edomv>
+						<edomvd>Yes, clumpy</edomvd>
+					</edom>
+				</attrdomv>
+				<attrdef>Clumpiness describes the overall geometry of the layer. A layer is clumpy if the stocking is medium to high within clumps and low to absent over 50% of the area occupied by the layer. A ragged canopy layer is a good candidate for a clumpy classification.</attrdef>
+				<attalias Sync="TRUE">L3_CLUMP</attalias></attr>
+			<attr>
+				<attrlabl Sync="TRUE">L4_CLOS</attrlabl>
+				<attwidth Sync="TRUE">4</attwidth>
+				<atoutwid Sync="TRUE">3</atoutwid>
+				<attrtype Sync="TRUE">Number</attrtype>
+				<attrdef>Percent crown closure for the layer</attrdef>
+				<attrdomv><rdom><rdommin>0</rdommin><rdommax>100</rdommax></rdom></attrdomv><attalias Sync="TRUE">L4_CLOS</attalias></attr>
+			<attr>
+				<attrlabl Sync="TRUE">L5_CLOS</attrlabl>
+				<attwidth Sync="TRUE">4</attwidth>
+				<atoutwid Sync="TRUE">3</atoutwid>
+				<attrtype Sync="TRUE">Number</attrtype>
+				<attrdef>Percent crown closure for the layer</attrdef>
+				<attrdomv><rdom><rdommin>0</rdommin><rdommax>100</rdommax></rdom></attrdomv><attalias Sync="TRUE">L5_CLOS</attalias></attr>
+			<attr>
+				<attrlabl Sync="TRUE">REMNANTS</attrlabl>
+				<attwidth Sync="TRUE">1</attwidth>
+				<atoutwid Sync="TRUE">1</atoutwid>
+				<attrtype Sync="TRUE">String</attrtype>
+				<attrdomv>
+					<edom>
+						<edomv>N</edomv>
+						<edomvd>No, remnants not present </edomvd>
+					</edom>
+					<edom>
+						<edomv>Y</edomv>
+						<edomvd>Yes, remnants present</edomvd>
+					</edom>
+				</attrdomv>
+				<attrdef>The presence or absence of large remnant trees.</attrdef>
+				<attalias Sync="TRUE">REMNANTS</attalias></attr>
+			<attr>
+				<attrlabl Sync="TRUE">REM_DIST</attrlabl>
+				<attwidth Sync="TRUE">1</attwidth>
+				<atoutwid Sync="TRUE">1</atoutwid>
+				<attrtype Sync="TRUE">String</attrtype>
+				<attrdomv>
+					<edom>
+						<edomv>C</edomv>
+						<edomvd>Remnants are clustered </edomvd>
+					</edom>
+					<edom>
+						<edomv>E</edomv>
+						<edomvd>Remnants are evenly distributed</edomvd>
+					</edom>
+				</attrdomv>
+				<attrdef>How the remnants are distributed.</attrdef>
+				<attalias Sync="TRUE">REM_DIST</attalias></attr>
+		</detailed>
+	</eainfo>
+	<distinfo>
+		<stdorder>
+			<digform>
+				<digtinfo>
+					<transize Sync="TRUE">0.000</transize>
+					<dssize Sync="TRUE">0.000</dssize>
+					<formname>ARCE</formname>
+				</digtinfo>
+				<digtopt>
+					<offoptn>
+						<offmedia>CD-ROM</offmedia>
+					</offoptn>
+				</digtopt>
+			</digform>
+		</stdorder>
+		<distrib>
+			<cntinfo>
+				<cntaddr>
+					<address>PO Box 1148</address>
+					<addrtype>mailing address</addrtype>
+					<city>Corvallis</city>
+					<state>OR</state>
+					<postal>97339</postal>
+					<country>USA</country>
+				</cntaddr>
+				<cntvoice>541-750-7000</cntvoice>
+				<cnttdd>541-750-7006</cnttdd>
+				<cntfax>541-750-7234</cntfax>
+				<hours>8:00 am - 5:00 pm</hours>
+				<cntaddr>
+					<addrtype>physical address</addrtype>
+					<address>4077 Research Way</address>
+					<city>Corvallis</city>
+					<state>OR</state>
+					<postal>97339</postal>
+					<country>USA</country>
+				</cntaddr>
+				<cntorgp>
+					<cntorg>USDA Forest Service, Siuslaw National Forest</cntorg>
+				</cntorgp>
+				<cntpos>GIS Coordinator</cntpos>
+			</cntinfo>
+		</distrib>
+		<resdesc Sync="TRUE">Downloadable Data</resdesc></distinfo>
+	<dataqual>
+		<lineage>
+			<srcinfo>
+				<srcscale>12000</srcscale>
+				<typesrc>stable-base material</typesrc>
+				<srctime><srccurr>ground condition</srccurr></srctime></srcinfo>
+			<procstep>
+				<proccont>
+					<cntinfo>
+						<cntaddr>
+							<addrtype>mailing and physical address</addrtype>
+							<address>4077 Research Way</address>
+							<city>Corvallis </city>
+							<state>OR</state>
+							<postal>97333</postal>
+							<country>USA</country>
+						</cntaddr>
+						<cntperp>
+							<cntper>Diane Rainsford</cntper>
+							<cntorg>USDA Forest Service, Siuslaw National Forest</cntorg>
+						</cntperp>
+						<cntvoice>541-750-7060</cntvoice>
+						<cnttdd>541-750-7006</cnttdd>
+						<cntfax>541-750-7234</cntfax>
+						<hours>8:00 am - 8:00 pm</hours>
+						<cntpos>GIS Coordinator</cntpos></cntinfo>
+				</proccont>
+				<procdesc>Original coverage was created by appending individual watersheds in 2000.  More data was appended in 2003.</procdesc><procdate>02 June 2003</procdate></procstep>
+			<procstep><procdesc Sync="TRUE">Dataset copied.</procdesc><srcused Sync="TRUE">i:\fsfiles\ref\library\gis\siu\piveg</srcused><date Sync="TRUE">20070307</date><time Sync="TRUE">09580900</time></procstep></lineage>
+		<logic>All photo typing was done by the same 2 people over several years.  They used the same standards and methods to type all the watersheds.</logic><complete>The coverage is planned to be completed for the whole forest in 2004.</complete></dataqual>
+	<dataIdInfo><envirDesc Sync="TRUE">Microsoft Windows 2000 Version 5.2 (Build 3790) Service Pack 2; ESRI ArcCatalog 9.3.1.3000</envirDesc><dataLang><languageCode Sync="TRUE" value="en"></languageCode></dataLang><idCitation><resTitle Sync="TRUE">veg</resTitle><presForm><PresFormCd Sync="TRUE" value="005"></PresFormCd></presForm></idCitation><spatRpType><SpatRepTypCd Sync="TRUE" value="001"></SpatRepTypCd></spatRpType><dataExt><geoEle><GeoBndBox esriExtentType="native"><westBL Sync="TRUE">268139.868882</westBL><eastBL Sync="TRUE">315088.561324</eastBL><northBL Sync="TRUE">1263713.701239</northBL><southBL Sync="TRUE">1076725.750887</southBL><exTypeCode Sync="TRUE">1</exTypeCode></GeoBndBox></geoEle></dataExt><geoBox esriExtentType="decdegrees"><westBL Sync="TRUE">-124.241506</westBL><eastBL Sync="TRUE">-123.53725</eastBL><northBL Sync="TRUE">45.380861</northBL><southBL Sync="TRUE">43.681001</southBL><exTypeCode Sync="TRUE">1</exTypeCode></geoBox></dataIdInfo><mdLang><languageCode Sync="TRUE" value="en"></languageCode></mdLang><mdStanName Sync="TRUE">ISO 19115 Geographic Information - Metadata</mdStanName><mdStanVer Sync="TRUE">DIS_ESRI1.0</mdStanVer><mdChar><CharSetCd Sync="TRUE" value="004"></CharSetCd></mdChar><mdHrLv><ScopeCd Sync="TRUE" value="005"></ScopeCd></mdHrLv><mdHrLvName Sync="TRUE">dataset</mdHrLvName><distInfo><distributor><distorTran><onLineSrc><orDesc Sync="TRUE">002</orDesc><linkage Sync="TRUE">file://\\ds.fs.fed.us\EFS\\FS\NFS\R06\Program\ResourceInfoMgmt\GIS\CSA2\Workspace\angigi\Converting_lib\Siuslaw\shapefiles\veg.shp</linkage><protocol Sync="TRUE">Local Area Network</protocol></onLineSrc><transSize Sync="TRUE">0.000</transSize></distorTran><distorFormat><formatName Sync="TRUE">Shapefile</formatName></distorFormat></distributor></distInfo><spatRepInfo><VectSpatRep><topLvl><TopoLevCd Sync="TRUE" value="001"></TopoLevCd></topLvl><geometObjs Name="veg"><geoObjTyp><GeoObjTypCd Sync="TRUE" value="001"></GeoObjTypCd></geoObjTyp><geoObjCnt Sync="TRUE">0</geoObjCnt></geometObjs></VectSpatRep></spatRepInfo><mdDateSt Sync="TRUE">20091104</mdDateSt><refSysInfo><RefSystem><refSysID><identCode Sync="TRUE">NAD_1983_Albers</identCode></refSysID></RefSystem></refSysInfo></metadata>
