@@ -17,9 +17,39 @@ library(geoarrow)
 library(sfarrow)
 library(ForestTools)
 
+library(here)
+
+source("to_parquet.R")
+
 ```
 
+# Set up File Paths for Local Data and if Nessary Convert to Parquets
 
+```{r}
+national_forest_path_gpkg <- here(
+  "Veg_ShapeFiles", 
+  "FS_National_Forests_Dataset_(US_Forest_Service_Proclaimed_Forests)",
+  "FS_National_Forests_Dataset_(US_Forest_Service_Proclaimed_Forests).gpkg"
+  )
+
+national_forest_path_parquet <- here(
+  "Veg_ShapeFiles", 
+  "FS_National_Forests_Dataset_(US_Forest_Service_Proclaimed_Forests)",
+  "US_Forest_Service_Proclaimed_Forests.siu_grid.parquet"
+)
+
+veg_file_path_shapefile <- here(
+  
+)
+
+veg_file_path_parquet <- here(
+  
+)
+siu_grid_file_path_gpkg = "Veg_ShapeFiles/siu_grid.gpkg"
+siu_grid_file_path_parquet = "Veg_ShapeFiles/siu_grid.parquet"
+
+```
+# Create the Grid
 ```{r,include=FALSE}
 national_forest_file_path = "Veg_ShapeFiles/FS_National_Forests_Dataset_(US_Forest_Service_Proclaimed_Forests)/FS_National_Forests_Dataset_(US_Forest_Service_Proclaimed_Forests).gpkg" 
 
@@ -58,12 +88,9 @@ if(!file.exists(siu_grid_file_path_gpkg)){
  
 ```
 
-```{r}
-for(i in 1:row(siu_grid)){
-  #TODO place for loop here when sinle grid works
-}
-```
-Testing out the fucntion 
+
+Testing out the function
+
 ```{r}
 library(tmap)
 library(leaflet)
@@ -204,7 +231,6 @@ leaflet_map <- leaflet_tree_analysis(chm_subset, ttops, siu_subset)
 #leaflet_map
 ```
 
-
 ```{r}
 #library(furrr)
 library(future)
@@ -318,11 +344,10 @@ create_large_leaflet_map <- function(tree_data, sample_frac = 0.1) {
 tree_map <- create_large_leaflet_map(final_output)
 tree_map
 ```
+
 Check batch progress
 
 ```{r}
 completed_batches <- list.files(cache_dir, pattern = "batch_\\d+.parquet")
 message(length(completed_batches), "/", num_batches, " batches completed")
 ```
-
-
