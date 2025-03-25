@@ -1,52 +1,418 @@
 ---
 title: "Oregon LiDAR CHM Mapping Project"
+author: "Gavin Adams - Adams Geospatial"
 output:
   html_document:
     df_print: paged
 ---
+```{r}
+#devtools::install_github("sailbot24/oRLiDAR")
+library(oRLiDAR)
+library(terra)
+library(sf)
+library(dplyr)
+```
+
+```{r}
+year_filter <- 1946
+size_filter <- 9 
+
+filtered_veg <- st_read("Veg_ShapeFiles/2003-Veg_Siuslaw/veg.shp", quiet = T) %>%
+  mutate(YR_ORIG = as.numeric(YR_ORIG),L1_SZCL = as.numeric(L1_SZCL)) %>% 
+  filter(YR_ORIG > year_filter & L1_SZCL >size_filter)
+
+for(i in 1:nrow(filtered_veg)){
+  fro
+}
+
+
+```
+
 
 # Packages
 
-```{r, include=FALSE}
+Like any R project, the first step is to load in the packages that are required for this project. The one thing of note is the last line loads in the CHM downloading function. As described in the comments in the cell, the path to the CHM script must be included for R to pull the functions in. 
+
+```{r}
+
 library(dplyr)
 
 library(terra)
 library(sf)
-# library(httr)
-# library(arcpullr) #would be cool if it worked but right now it does not seem to work right 
 
 library(ForestTools)
-library(lidR)
 
-library(whitebox)
-source("oregon_chm_downloader.r")
+library(whitebox) # This package is worth looking in to. 
 
-```
-
-# Downloading DEM Tiles
-
-```{r}
-
-aoi <- sf::st_read("OregonLidarData.gpkg", layer = "AOI", quiet = TRUE)
-
-chm<- download_oregon_chm(aoi)
-
-plot(chm)
-
+#source("oregon_chm_downloader.r") # The file "oregon_chm_downlodader.r" needs to be in the same folder as the .RMD otherwise a path to the file needs to be specified
+#TODO turn the CHM downloaded in to a R package
 ```
 
 # Filter the Veg Shapefiles
 
+This next block of code sets the filters for the shape file. Then reads in the vegetation shape file. (you may need to update paths to the shapefile if you try to run the script)
+
 ```{r}
+year_filter <- 1946
+size_filter <- 9 
+
 veg_shapefiles <- st_read("Veg_ShapeFiles/2003-Veg_Siuslaw/veg.shp", quiet = T) 
-filtered_veg <- veg_shapefiles %>% filter(YR_ORIG > 1946 & L1_SZCL >9)
+filtered_veg <- veg_shapefiles %>% filter(YR_ORIG > year_filter & L1_SZCL >size_filter)
 
 ```
 
-# Try to download the raster for the first veg shape file 
+# Downloading the First AOI CHM Raster
+Here is the test of the first AOI based on the filtered vegetation shapefiles. The AOI is then fed in to the downloader function. When the mask parameter is set to true the output raster will be masked to the shapefile. There is also a parameter that allows for the definition of the output path of the raster. I am going to go in and add an parameter to not save a copy of the raster locally when its downloaded. 
 
 ```{r}
+source("oregon_chm_downloader.r")
 aoi <- filtered_veg[1,]
-chm<- download_oregon_chm(aoi, mask = TRUE)
+chm<- download_oregon_chm(aoi, mask = TRUE) #TODO add an option to not save the downloaded raster
 
 ```
+
+# Running  Forest Tools on the First AOI
+
+Here is the running of forest tools. The lin function would need to be adjusted to better match the correct function for the AOI. Once we find a function that we like for the VWF we shoudl have an accurate tree count without over sampeling. 
+```{r}
+
+minHeight = 12
+# Function for defining dynamic window size
+lin <- function(x){x * 0.1 + 1}
+
+# Detect treetops
+ttops <- vwf(chm, winFun = lin, minHeight = minHeight)
+# Plot CHM
+plot(chm, xlab = "", ylab = "", xaxt='n', yaxt = 'n')
+# Add dominant treetops to the plot
+plot(ttops$geometry, col = "blue", pch = 20, cex = 0.5, add = TRUE)
+
+# Create polygon crown map
+crowns_poly <- mcws(treetops = ttops, CHM = chm, format = "polygons", minHeight =minHeight)
+st_write(ttops, "aoi1_tt.gpkg", delete_dsn = TRUE, quiet = T)
+```
+
+## mapping the results of forest tools
+
+```{r}
+#  Map CHM
+library(tmap)
+
+# Get exact range and add buffer to highest value
+height_range <- range(values(chm), na.rm = TRUE)
+max_height <- ceiling(height_range[2] + 10)  # Add buffer to include all values
+breaks <- seq(0, max_height, by = 10)
+
+tm_shape(chm) +
+  tm_raster(
+    col.scale = tm_scale(values = "viridis",
+                        breaks = breaks,
+                        outliers.rm = TRUE),
+    col.legend = tm_legend(title = "Canopy Height (ft)")) +
+  tm_shape(crowns_poly) + 
+  tm_borders(col = "white", 
+             lwd = 0.5, 
+             fill_alpha = 0.5) +
+  #tm_graticules() +
+  tm_compass(
+    type = "arrow", 
+    position = c("left", "bottom"),
+    size = 1.2
+  ) +
+  tm_scale(
+    position = c("left", "bottom"),
+    offset.x = 1.5
+  ) +
+  tm_title("Canopy Height Model",
+           position = c("center", "top")) +
+  tm_layout(
+    frame = FALSE,
+    #outer.margins = c(0.15, 0.15, 0.15, 0.15),  # Increased margins
+    inner.margins = c(0.1, 0.1, 0.1, 0.1)
+  )
+```
+
+# Finding the Optimal Search Window
+
+```{r, include = FALSE}
+# Function to test different window parameters
+test_window_functions <- function(chm, plot_results = TRUE) {
+    # Define different window functions
+    win_functions <- list(
+        conservative = function(x){x * 0.08 + 1},  # Smaller windows
+        moderate = function(x){x * 0.12 + 1.5},    # Medium windows
+        aggressive = function(x){x * 0.15 + 2}     # Larger windows
+    )
+    
+    # Test each function
+    results <- list()
+    for(name in names(win_functions)) {
+        ttops <- vwf(chm, winFun = win_functions[[name]], minHeight = minHeight)
+        results[[name]] <- ttops
+        
+        if(plot_results) {
+            # Plot results
+            plot(chm, main = paste("Window Function:", name))
+            plot(ttops$geometry, col = "blue", pch = 20, cex = 0.5, add = TRUE)
+        }
+    }
+    
+    # Print summary statistics
+    for(name in names(results)) {
+        cat(sprintf("\n%s function found %d trees", name, nrow(results[[name]])))
+    }
+    
+    return(results)
+}
+
+# Run the test
+test_results <- test_window_functions(chm)
+
+# Calculate average crown diameter for validation
+validate_crowns <- function(ttops, chm) {
+    crowns <- mcws(treetops = ttops, CHM = chm, format = "polygons", minHeight = minHeight)
+    crown_areas <- st_area(crowns)
+    avg_diameter <- mean(sqrt(crown_areas/pi) * 2)
+    return(list(
+        n_trees = nrow(ttops),
+        avg_diameter = avg_diameter,
+        crowns = crowns
+    ))
+}
+
+# Optimize based on typical crown diameter-to-height relationships
+optimize_window <- function(chm) {
+    # Get height distribution
+    heights <- values(chm)
+    heights <- heights[!is.na(heights)]
+    
+    # Calculate expected crown widths based on height
+    # Using general relationship: crown width ≈ 0.15-0.25 * height for conifers
+    # Adjust these coefficients based on your forest type
+    mean_height <- mean(heights, na.rm = TRUE)
+    expected_crown_width <- mean_height * 0.2  # Using 0.2 as middle ground
+    
+    # Convert to window function parameters
+    # Window should be about half the crown width at mean height
+    slope <- (expected_crown_width/2) / mean_height
+    intercept <- expected_crown_width/4  # Base window size
+    
+    # Return optimized function
+    return(function(x) x * slope + intercept)
+}
+
+# Get optimized window function
+opt_win <- optimize_window(chm)
+
+# Test optimized function
+ttops_opt <- vwf(chm, winFun = opt_win, minHeight = minHeight)
+crowns_opt <- mcws(treetops = ttops_opt, CHM = chm, format = "polygons", minHeight = minHeight)
+
+# Validate results
+plot(chm, main = "Optimized Window Function")
+plot(ttops_opt$geometry, col = "blue", pch = 20, cex = 0.5, add = TRUE)
+plot(crowns_opt, border = "white", add = TRUE)
+
+# Print statistics
+cat(sprintf("\nOptimized function found %d trees", nrow(ttops_opt)))
+cat(sprintf("\nAverage crown diameter: %.2f feet", 
+            mean(sqrt(st_area(crowns_opt)/pi) * 2)))
+```
+
+```{r, include= FALSE}
+# Function to compare different window functions
+compare_window_functions <- function(chm, minHeight) {
+    # Define different window functions from literature
+    win_functions <- list(
+        kane = function(x){x * 0.15 + 2},     # Kane et al. 2010
+        popescu = function(x){x * 0.13 + 1.5}, # Popescu & Wynne 2004
+        kini = function(x){x * 0.11 + 1.2},    # Kini & Popescu 2004
+        chen_df = function(x){x * 0.18 + 1.8}, # Chen et al. 2006 (Douglas-fir)
+        chen_pp = function(x){x * 0.225 + 2}   # Chen et al. 2006 (Ponderosa Pine)
+    )
+    
+    # Store results
+    results <- list()
+    
+    # Create plot layout
+    par(mfrow = c(2, 3))
+    
+    # Test each function
+    for(name in names(win_functions)) {
+        # Detect trees
+        ttops <- vwf(chm, winFun = win_functions[[name]], minHeight = minHeight)
+        
+        # Create crowns
+        crowns <- mcws(treetops = ttops, CHM = chm, format = "polygons", minHeight = minHeight)
+        
+        # Store results
+        results[[name]] <- list(
+            ttops = ttops,
+            crowns = crowns,
+            n_trees = nrow(ttops),
+            mean_height = mean(ttops$height),
+            mean_crown_area = mean(st_area(crowns))
+        )
+        
+        # Plot results
+        plot(chm, main = paste("Method:", name, "\nTrees:", nrow(ttops)))
+        plot(crowns, border = "white", add = TRUE)
+        plot(ttops$geometry, col = "blue", pch = 20, cex = 0.5, add = TRUE)
+    }
+    
+    # Reset plot layout
+    par(mfrow = c(1, 1))
+    
+    # Print summary statistics
+    cat("\nSummary Statistics:\n")
+    for(name in names(results)) {
+        cat(sprintf("\n%s method:", name))
+        cat(sprintf("\n  Trees detected: %d", results[[name]]$n_trees))
+        cat(sprintf("\n  Mean height: %.2f ft", results[[name]]$mean_height))
+        cat(sprintf("\n  Mean crown area: %.2f sq ft\n", results[[name]]$mean_crown_area))
+    }
+    
+    return(results)
+}
+
+# Create visualization of window functions
+plot_window_functions <- function() {
+    heights <- seq(0, 100, by = 10)
+    
+    plot(heights, heights * 0.15 + 2, type = "l", col = "red",
+         xlab = "Tree Height (ft)", ylab = "Window Radius (ft)",
+         main = "Window Functions Comparison")
+    lines(heights, heights * 0.13 + 1.5, col = "blue")
+    lines(heights, heights * 0.11 + 1.2, col = "green")
+    lines(heights, heights * 0.18 + 1.8, col = "purple")
+    lines(heights, heights * 0.225 + 2, col = "orange")
+    legend("topleft", 
+           legend = c("Kane et al.", "Popescu & Wynne", "Kini & Popescu", 
+                     "Chen et al. (DF)", "Chen et al. (PP)"),
+           col = c("red", "blue", "green", "purple", "orange"),
+           lty = 1)
+}
+
+# Print citations
+print_citations <- function() {
+    cat("
+Citations:
+
+1. Kane, V. R., McGaughey, R. J., Bakker, J. D., Gersonde, R. F., Lutz, J. A., & Franklin, J. F. (2010). 
+   Comparisons between field-and LiDAR-based measures of stand structural complexity. 
+   Canadian Journal of Forest Research, 40(4), 761-773.
+
+2. Popescu, S. C., & Wynne, R. H. (2004). 
+   Seeing the trees in the forest: Using lidar and multispectral data fusion with local filtering and 
+   variable window size for estimating tree height. 
+   Photogrammetric Engineering & Remote Sensing, 70(5), 589-604.
+
+3. Kini, A. U., & Popescu, S. C. (2004). 
+   TreeVaW: A versatile tool for analyzing forest canopy LIDAR data: A preview with an eye towards future. 
+   In Proceedings of the ASPRS 2004 Fall Conference.
+
+4. Chen, Q., Baldocchi, D., Gong, P., & Kelly, M. (2006). 
+   Isolating individual trees in a savanna woodland using small footprint lidar data. 
+   Photogrammetric Engineering & Remote Sensing, 72(8), 923-932.
+    ")
+}
+
+# Create detailed map for best method
+create_detailed_map <- function(results, method_name, chm) {
+    # Get results for specified method
+    method_results <- results[[method_name]]
+    
+    # Get height range for legend
+    height_range <- range(values(chm), na.rm = TRUE)
+    breaks <- seq(0, ceiling(height_range[2]), by = 10)
+    
+    # Create map
+    tm_shape(chm) +
+        tm_raster(
+            col.scale = tm_scale(values = "viridis",
+                               breaks = breaks),
+            col.legend = tm_legend(title = "Canopy Height (ft)")) +
+        tm_shape(method_results$crowns) + 
+        tm_borders(col = "white", 
+                  lwd = 0.5, 
+                  fill_alpha = 0.5) +
+        tm_scalebar(position = c("left", "bottom"),
+                   width = 0.15) +
+        tm_compass(type = "arrow", 
+                  position = c("left", "bottom"),
+                  size = 1,
+                  offset.x = 0.2) +
+        tm_title(paste(method_name, "Method Results"),
+                position = c("center", "top")) +
+        tm_layout(frame = TRUE,
+                 outer.margins = c(0.15, 0.15, 0.15, 0.15),
+                 inner.margins = c(0.1, 0.1, 0.1, 0.1))
+}
+
+# Run the analysis
+# Assuming you have your CHM loaded as 'chm' and minHeight defined
+# minHeight <- 6  # Example minimum height threshold
+
+# Run the comparison
+results <- compare_window_functions(chm, minHeight)
+
+# Plot window functions
+plot_window_functions()
+
+# Print citations
+print_citations()
+
+# Create detailed map for best method (example using Kane method)
+detailed_map <- create_detailed_map(results, "kane", chm)
+```
+
+```{r}
+library(ggplot2)
+
+# Convert to factor if needed
+veg_shapefiles$`L1_SPP1` <- as.factor(veg_shapefiles$`L1_SPP1`)
+
+# Define custom labels
+species_labels <- c("ABPR" = "ABPR\nnoble fir", "ACMA" = "ACMA\nbigleaf maple", 
+                    "ALRU" = "ALRU\nred alder", "PICO" = "PICO\nshore pine", 
+                    "PISI" = "PISI\nSitka spruce", "PSME" = "PSME\nDouglas-fir", 
+                    "THPL" = "THPL\nWestern red-cedar", "TSHE" = "TSHE\nWestern hemlock", 
+                    "TREE" = "TREE\nunknown tree species", "TREED" = "TREED\nUnknown deciduous tree species", 
+                    "TREEC" = "TREEC\nUnknown conifer tree species")
+
+ggplot(filtered_veg, aes(x = `L1_SPP1`)) +
+  geom_bar(fill = "steelblue") +
+  scale_x_discrete(labels = species_labels) +  # Apply custom labels
+  labs(title = "The Most Common Species in the Layer in the Filtered Data Set", x = "Species", y = "Count") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate labels for readability
+
+```
+
+# Running for All AOIs 
+
+```{r}
+
+```
+
+# Source the tree age calculator
+source("oregon_tree_age_calculator.R")
+
+# Load National Forest boundaries
+nf_path <- "Veg_ShapeFiles/FS_National_Forests_Dataset_(US_Forest_Service_Proclaimed_Forests)/FS_National_Forests_Dataset_(US_Forest_Service_Proclaimed_Forests).shp"
+national_forests <- st_read(nf_path, quiet = TRUE)
+
+# Filter for Siuslaw National Forest
+siuslaw <- national_forests %>% 
+  filter(FORESTNAME == "Siuslaw National Forest")
+
+# Create hexagon grid (50 acres each)
+hex_grid <- create_hexagon_grid(siuslaw, area_acres = 50)
+
+# Process just the first hexagon
+sample_hexagon <- hex_grid[1, ]
+sample_result <- process_hexagon(sample_hexagon, 1)
+
+# View the results
+print(sample_result)
+
