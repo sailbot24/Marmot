@@ -2,7 +2,10 @@
 .Rhistory
 .RData
 .Ruserdata
-/Veg_ShapeFiles
+/Veg_ShapeFiles/**
+!/Veg_ShapeFiles/**/
+!/Veg_ShapeFiles/**/*.parquet
+
 /maps_pics
 /output
 *.gpkg
