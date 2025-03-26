@@ -11,57 +11,76 @@ library(oRLiDAR)
 library(terra)
 library(sf)
 library(dplyr)
-library(lidR)
-library(rstac)
 library(geoarrow)
 library(sfarrow)
 library(ForestTools)
-
 library(here)
 
-source("to_parquet.R")
 
 ```
 
 # Set up File Paths for Local Data and if Nessary Convert to Parquets
 
+The here package is great for making sure that the file paths of a project are sorted out easily
+## Set the file paths
 ```{r}
-national_forest_path_gpkg <- here(
-  "Veg_ShapeFiles", 
-  "FS_National_Forests_Dataset_(US_Forest_Service_Proclaimed_Forests)",
-  "FS_National_Forests_Dataset_(US_Forest_Service_Proclaimed_Forests).gpkg"
-  )
-
-national_forest_path_parquet <- here(
-  "Veg_ShapeFiles", 
-  "FS_National_Forests_Dataset_(US_Forest_Service_Proclaimed_Forests)",
-  "US_Forest_Service_Proclaimed_Forests.siu_grid.parquet"
+forest_paths <- list(
+  gpkg = here("Veg_ShapeFiles", "US_Forest_Service_Proclaimed_Forests", "US_Forest_Service_Proclaimed_Forests.gpkg"),
+  parquet = here("Veg_ShapeFiles", "US_Forest_Service_Proclaimed_Forests", "US_Forest_Service_Proclaimed_Forests.siu_grid.parquet")
 )
 
-veg_file_path_shapefile <- here(
-  
+veg_paths <- list(
+  gpkg = here("Veg_ShapeFiles", "2003-Veg_Siuslaw", "veg.gpkg"),
+  parquet = here("Veg_ShapeFiles", "2003-Veg_Siuslaw", "veg.parquet")
 )
 
-veg_file_path_parquet <- here(
-  
+grid_paths <- list(
+  gpkg = here("Veg_ShapeFiles", "grids", "siu_grid.gpkg"),
+  parquet = here("Veg_ShapeFiles", "grids", "siu_grid.parquet")
 )
-siu_grid_file_path_gpkg = "Veg_ShapeFiles/siu_grid.gpkg"
-siu_grid_file_path_parquet = "Veg_ShapeFiles/siu_grid.parquet"
 
+path_config <- list(forest_paths,veg_paths,grid_paths)
 ```
-# Create the Grid
-```{r,include=FALSE}
-national_forest_file_path = "Veg_ShapeFiles/FS_National_Forests_Dataset_(US_Forest_Service_Proclaimed_Forests)/FS_National_Forests_Dataset_(US_Forest_Service_Proclaimed_Forests).gpkg" 
 
-siu_grid_file_path_gpkg = "Veg_ShapeFiles/siu_grid.gpkg"
-siu_grid_file_path_parquet = "Veg_ShapeFiles/siu_grid.parquet"
-
-if(!file.exists(siu_grid_file_path_gpkg)){
-  siu <- st_read(national_forest_file_path,#The national forest boundry layer will need to be a GPKG
-               layer = "Nat_Forests", #Set this to he layer name in the GPKG
-               query = "SELECT * FROM \"FS_National_Forests_Dataset_(US_Forest_Service_Proclaimed_Forests)\" 
-                        WHERE FORESTNAME = 'Siuslaw National Forest'")
+## Make sure that there is a parquet version of every file
+```{r}
+ensure_parquet_exists <- function(path_list) {
+  if (file.exists(path_list$parquet)) {
+    message(basename(path_list$parquet), " exists")
+    return(TRUE)
+  }
   
+  source_file <- if (!is.null(path_list$gpkg) && file.exists(path_list$gpkg)) {
+    path_list$gpkg
+  } else if (!is.null(path_list$shapefile) && file.exists(path_list$shapefile)) {
+    path_list$shapefile
+  } else {
+    warning("No source file found for ", basename(path_list$parquet))
+    return(FALSE)
+  }
+  
+  message("Creating ", basename(path_list$parquet), " from ", basename(source_file))
+  sf_obj <- st_read(source_file, quiet = TRUE)
+  write_parquet(sf_obj, path_list$parquet)
+}
+
+# Run for all configurations
+lapply(path_config, ensure_parquet_exists)
+```
+
+
+
+# Create the Grid
+TODO figure out why the gird is rotate 
+```{r,include=FALSE}
+
+if(!file.exists(grid_paths$parquet)){
+   siu <- st_read(forest_paths$gpkg, layer = "Nat_Forests") %>%
+    filter(FORESTNAME == 'Siuslaw National Forest') %>% 
+     #st_transform(32610)# UTM zone 10N EPSG code
+     st_transform(2992) # Oregon Lambert EPSG Code
+
+
   siu_bb <- st_bbox(siu)
 
   siu_grid<- st_make_grid(siu_bb,
@@ -79,73 +98,49 @@ if(!file.exists(siu_grid_file_path_gpkg)){
   
   siu_grid <- siu_grid %>% select(-GIS_ACRES,-SHAPELEN, -OBJECTID, -FORESTNAME,-PROCLAIMED)
   
-  st_write(siu_grid,siu_grid_file_path, layer = "siu_grid")
-  st_write_parquet(siu_grid, siu_grid_file_path_parquet)
+  st_write(siu_grid,grid_paths$gpkg, layer = "siu_grid")
+  st_write_parquet(siu_grid, grid_paths$parquet)
     
 } else {
-  siu_grid <- st_read_parquet(siu_grid_file_path_parquet)
+  siu_grid <- st_read_parquet(grid_paths$parquet)
 }
- 
+
 ```
 
+# Tree Hight Model 
 
 Testing out the function
 
 ```{r}
-library(tmap)
-library(leaflet)
-siu_subset <- siu_grid[10,]
-chm_subset <- oRLiDAR::download_oregon_chm(siu_subset)
+# simple processing code for now
 
-# setting up the test site that chris and I are working on
-# <!--chm_subset <- rast("Peav4.tif")
-# siu_subset <- st_bbox(chm_subset) %>% st_as_sfc() %>% 
-#   st_as_sf()
-
-
-# Forest Tools to get tree height 
-lin <- function(x){x * 0.05 + 0.6}
-ttops <- ForestTools::vwf(chm_subset, winFun = lin, minHeight = 10) # this will give us the height of the trees
-chm_subset$mean_tree_height <- mean(ttops$height)
-
-# Age calculation 
-# first we need to work out the SI calculation based on primary tree in the shapefile. We can do this by assining the values form the 
-veg_file_path_shapefile <- "Veg_ShapeFiles/2003-Veg_Siuslaw/veg.shp"
-veg_file_path_parquet <- "Veg_ShapeFiles/2003-Veg_Siuslaw/veg.parquet"
-veg <- st_read_parquet(veg_file_path_parquet, quiet = T)
-siu_subset <- st_join(siu_subset, veg, join = st_intersects)
-
-```
-
-```{r}
-veg_file_path_shapefile <- "Veg_ShapeFiles/2003-Veg_Siuslaw/veg.shp"
-veg_file_path_parquet <- "Veg_ShapeFiles/2003-Veg_Siuslaw/veg.parquet"
-veg <- st_read(veg_file_path_shapefile)
-st_write_parquet(veg, veg_file_path_parquet)
-
-
-```
-
-```{r}
-# Load required libraries
-library(tmap)
-library(leaflet)
-library(terra)
-library(sf)
-library(ForestTools)
-
-# Your existing processing code
-siu_subset <- siu_grid[15000,]
+siu_subset <- siu_grid[25000,] %>% 
+  st_transform(2992)
 chm_subset <- oRLiDAR::download_oregon_chm(siu_subset)
 lin <- function(x){x * 0.05 + 0.6}
-ttops <- ForestTools::vwf(chm_subset, winFun = lin, minHeight = 20)
-veg <- st_read_parquet("Veg_ShapeFiles/2003-Veg_Siuslaw/veg.parquet", quiet = TRUE)
-siu_subset <- st_join(siu_subset, veg, join = st_intersects)
+ttops <- ForestTools::vwf(chm_subset, winFun = lin, minHeight = 20) # TODO add a catch for if the max tree height is under minHeight 
+veg_data <- st_read_parquet(veg_paths$parquet, quiet = TRUE) %>% 
+  st_transform(2992)
+siu_subset <- st_join(siu_subset, veg_data, join = st_intersects)
+siu_subset$height <- mean(ttops$height)
+
+# Tree age calculations 
+#TODO tree age calculations go here with better SI calculation 
+
+# Set the constants 
+SI <- 105 #TODO change this to be read from the productivity layer, but just use CLass3 for now
+bo <- 123.25
+b1 <- 0.71698
+b2 <- -0.0001677
+b3 <- 0.95516
+b4 <- 0.0022182
+
+siu_subset$tree_age <- (log((1-siu_subset$height/(bo+b1*SI))^(b3+b4*SI)))/(b2*SI)
 
 # 1. Static Plot (simplified without mean height)
 plot_tree_analysis <- function(chm, ttops, title = "Tree Height Analysis") {
   # Plot CHM
-  plot(chm, main = paste(title, "\nCanopy Height Model (m)"))
+  plot(chm, main = paste(title, "\nCanopy Height Model (f)"))
   
   # Convert ttops to SpatVector for plotting if needed
   if (inherits(ttops, "sf")) {
@@ -155,7 +150,7 @@ plot_tree_analysis <- function(chm, ttops, title = "Tree Height Analysis") {
   
   # Add histogram
   hist(ttops$height, main = "Tree Height Distribution", 
-       xlab = "Height (m)", col = "lightgreen")
+       xlab = "Height (f)", col = "lightgreen")
   
   message("Tree Height Summary:")
   print(summary(ttops$height))
@@ -164,44 +159,25 @@ plot_tree_analysis <- function(chm, ttops, title = "Tree Height Analysis") {
 # Run static plot
 plot_tree_analysis(chm_subset, ttops)
 
-# 2. Interactive tmap visualization
-tmap_tree_analysis <- function(chm, ttops, siu_boundary) {
-  # Convert to raster object that tmap understands
-  chm_raster <- as(chm, "Raster")
-  
-  tm_shape(chm_raster) +
-    tm_raster(, palette = "viridis", alpha = 0.8) +
-    tm_shape(ttops) +
-    tm_dots(size = 0.1, col = "height", palette = "RdYlGn", 
-            title = "Tree Height (m)", alpha = 0.7) +
-    tm_shape(siu_boundary) +
-    tm_borders(col = "black", lwd = 2) +
-    tm_layout(legend.position = c("left", "bottom"))
-}
 
-# Set tmap to interactive mode and view
-tmap_mode("view")
-tree_map <- tmap_tree_analysis(chm_subset, ttops, siu_subset)
-tree_map
-
-# 3. Leaflet visualization
+# Leaflet visualization
 leaflet_tree_analysis <- function(chm, ttops, siu_boundary) {
   # Project to WGS84 (EPSG:4326)
   ttops_4326 <- st_transform(ttops, 4326)
   siu_4326 <- st_transform(siu_boundary, 4326)
-  
+
   # Create palettes
   chm_pal <- colorNumeric("viridis", values(chm), na.color = "transparent")
   height_pal <- colorNumeric("RdYlGn", ttops_4326$height)
-  
+
   # Convert chm to raster package object
   chm_raster <- as(chm, "Raster")
-  
+
   leaflet() %>%
-    addProviderTiles(providers$Esri.WorldImagery, group = "Satellite") %>%
+    addProviderTiles(providers$Esri.WorldImagery) %>%
     addRasterImage(chm_raster, colors = chm_pal, opacity = 0.8, group = "CHM") %>%
     addCircleMarkers(
-      data = ttops_4326, 
+      data = ttops_4326,
       radius = 3,
       color = ~height_pal(height),
       fillOpacity = 0.8,
@@ -228,126 +204,6 @@ leaflet_tree_analysis <- function(chm, ttops, siu_boundary) {
 
 # Create and view leaflet map
 leaflet_map <- leaflet_tree_analysis(chm_subset, ttops, siu_subset)
-#leaflet_map
+leaflet_map
 ```
 
-```{r}
-#library(furrr)
-library(future)
-library(progressr)
-library(arrow)  # For efficient caching
-library(tictoc)
-
-# Configuration
-batch_size <- 1000
-total_cells <- nrow(siu_grid)
-num_batches <- ceiling(total_cells / batch_size)
-cache_dir <- "grid_processing_cache"
-dir.create(cache_dir, showWarnings = FALSE)
-
-# Set up parallel processing (adjust workers based on your system)
-available_cores <- availableCores()
-plan(multisession, workers = min(available_cores - 2, 12))  # Don't use all cores
-message("Using ", min(available_cores - 2, 12), " workers for parallel processing")
-
-# Enhanced processing function with memory management
-process_grid_batch <- function(batch_num) {
-  # Check for cached results first
-  cache_file <- file.path(cache_dir, paste0("batch_", batch_num, ".parquet"))
-  if (file.exists(cache_file)) {
-    return(read_parquet(cache_file))
-  }
-  
-  start_idx <- (batch_num - 1) * batch_size + 1
-  end_idx <- min(batch_num * batch_size, total_cells)
-  batch_cells <- siu_grid[start_idx:end_idx, ]
-  
-  # Process with garbage collection between cells
-  results <- map(1:nrow(batch_cells), function(i) {
-    gc(full = TRUE)  # Clean up memory between cells
-    process_grid_cell(batch_cells[i, ])  # Your existing processing function
-  }, .progress = TRUE)
-  
-  # Combine and save results
-  batch_result <- bind_rows(compact(results))
-  if (nrow(batch_result) > 0) {
-    write_parquet(batch_result, cache_file)
-    message("Saved batch ", batch_num, " (cells ", start_idx, "-", end_idx, ")")
-  }
-  
-  return(batch_result)
-}
-
-# Main processing loop with progress tracking
-with_progress({
-  p <- progressor(along = 1:num_batches)
-  
-  tic("Total processing time")
-  all_results <- future_map_dfr(
-    1:num_batches,
-    function(batch) {
-      p(message = sprintf("Processing batch %d/%d", batch, num_batches))
-      process_grid_batch(batch)
-    },
-    .options = furrr_options(seed = TRUE, scheduling = 2)
-  )
-  toc()
-})
-
-# Combine all batches (if not already combined)
-final_output <- all_results %>% 
-  st_as_sf() %>%
-  st_make_valid()
-
-# Save final output
-write_parquet(final_output, "final_processed_trees.parquet")
-
-# Clean up workers
-plan(sequential)
-
-# Visualization function for large datasets
-create_large_leaflet_map <- function(tree_data, sample_frac = 0.1) {
-  # Subsample for visualization if needed
-  if (nrow(tree_data) > 1e5) {
-    message("Subsampling ", sample_frac*100, "% of data for visualization")
-    tree_data <- tree_data %>% 
-      slice_sample(prop = sample_frac)
-  }
-  
-  tree_data_4326 <- st_transform(tree_data, 4326)
-  
-  # Create binned palette
-  height_pal <- colorBin("RdYlGn", tree_data_4326$height, bins = 7)
-  
-  # WebGL rendering for performance
-  leaflet() %>%
-    addProviderTiles(providers$Esri.WorldImagery) %>%
-    addGlPoints(
-      data = tree_data_4326,
-      group = "Tree Tops",
-      popup = ~paste("Height: ", round(height, 1), "m"),
-      fillColor = ~height_pal(height),
-      radius = 3,
-      fillOpacity = 0.7
-    ) %>%
-    addLegend(
-      position = "bottomright",
-      pal = height_pal,
-      values = tree_data_4326$height,
-      title = "Tree Height (m)"
-    ) %>%
-    addMeasure() %>%
-    addScaleBar()
-}
-
-# Generate the map (with subsampling if needed)
-tree_map <- create_large_leaflet_map(final_output)
-tree_map
-```
-
-Check batch progress
-
-```{r}
-completed_batches <- list.files(cache_dir, pattern = "batch_\\d+.parquet")
-message(length(completed_batches), "/", num_batches, " batches completed")
-```

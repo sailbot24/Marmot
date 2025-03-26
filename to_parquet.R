@@ -59,3 +59,4 @@ gis_to_geoparquet <- function(input_path, output_path,
   
   invisible(NULL)
 }
+
