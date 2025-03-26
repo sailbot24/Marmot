@@ -8,7 +8,7 @@ date: "`r Sys.Date()`"
 output: 
 ---
 
-# Libraries 
+# Libraries
 
 This includes all of the libraries for the project.
 
@@ -24,7 +24,7 @@ library(ForestTools)
 library(here)
 library(leaflet)
 library(tmap)
-
+source(".si_function.R")
 ```
 
 # Set up File Paths for Local Data and if Necessary Convert to Parquets
@@ -50,7 +50,7 @@ grid_paths <- list(
 data_paths <- list(forest_paths,veg_paths,grid_paths)
 ```
 
-## Make sure that there is a parquet version of every file. 
+## Make sure that there is a parquet version of every file.
 
 This is to speed up processing time when handling large data sets. Also the size of the files is reduced which helps with sharing on platforms like github.
 
@@ -123,8 +123,10 @@ We are still working on a way to get stand productivity from the raster and work
 ```{r Tree Height Model, include = FALSE}
 # simple processing code for now
 minHeight <-20 # or other thresshold in FT 
-siu_subset <- siu_grid[25000,] %>% 
+
+siu_subset <- siu_grid[10000,] %>% 
   st_transform(2992)
+
 chm_subset <-tryCatch(
   {oRLiDAR::download_oregon_chm(siu_subset)
   }, error = function(e) {stop("Failed to download CHM: ", e$message)}
@@ -132,30 +134,136 @@ chm_subset <-tryCatch(
 chm_subset_max <- terra::minmax(chm_subset)['max',]
 
 
-lin <- function(x){x * 0.05 + 0.6}
 
 #TODO make this more robust, for now it just assigns 9999 for age
 if (chm_subset_max <= minHeight){
   siu_subset$tree_age <- 99999
 }else{
-  ttops <- ForestTools::vwf(chm_subset, winFun = lin, minHeight = minHeight) #
+  lin <- function(x){x * 0.05 + 0.6} # TODO, I think that that the WVF function could use some refinement 
+  ttops <- ForestTools::vwf(chm_subset, winFun = lin, minHeight = minHeight) 
+  # individual Tree height age 
+  ttops$SI <-si_calculator(siu_subset, ttops)
+  ttops$Age <- calculate_tree_age(ttops$SI, ttops$height) 
+  
+  # so that the gird subset has 
   veg_data <- st_read_parquet(veg_paths$parquet, quiet = TRUE) %>% 
     st_transform(2992)
   siu_subset <- st_join(siu_subset, veg_data, join = st_intersects)
-  siu_subset$height <- mean(ttops$height)
+  # cull to get the upper canopy top 10% or 5% and then take the mean of that 
+  siu_subset$height <- mean(ttops$height) #
   
   # Tree age calculations 
   # Set the constants 
-  SI <- 105 #TODO change this to be read from the productivity layer, but just use CLass3 for now
+  SI <- 105 
   bo <- 123.25
   b1 <- 0.71698
   b2 <- -0.0001677
   b3 <- 0.95516
   b4 <- 0.0022182
   
+  # this needs to be 3% command 
   siu_subset$tree_age <- (log((1-siu_subset$height/(bo+b1*SI))^(b3+b4*SI)))/(b2*SI)
 }
+```
+
+```{r tmap of tree hight model}
+#TODO needs to have the chm raster added along with the popup option
+# reporject the data to web mapping
+#TODO 
+tmap_mode("view")# makes the tmap interactive 
+# Create the base map
+tree_age_map <-  tm_basemap(server = "Esri.WorldImagery")+
+  tm_shape(ttops) +
+  tm_dots(col = "height",
+          title = "Tree Height (FT)",
+          style = "cont",  # Continuous color scale
+          palette = "YlOrBr",  # Yellow-Orange-Brown palette
+          n = 5,  # Number of breaks
+          legend.hist = TRUE) +  # Add histogram
+  
+  # Add map elements
+  #tm_compass(type = "8star", position = c("right", "top")) +
+  #tm_scale_bar(position = c("left", "bottom")) +
+  
+  # Layout settings
+  tm_layout(main.title = "Estimated Tree Height by Grid Cell",
+            main.title.position = "center",
+            legend.outside = TRUE,
+            legend.outside.position = "right",
+            frame = FALSE,
+            bg.color = "white",
+            inner.margins = c(0.1, 0.1, 0.1, 0.1))
 
 
+# Print the map
+tree_age_map
 
+```
+
+## VWF Function Testing
+
+```{r}
+lin_fun <- function(x) { x * 0.05 + 0.6 }  # Original linear function
+exp_fun <- function(x) { 0.6 * exp(0.03 * x) }
+asymp_fun <- function(x) { 1.2 * (1 - exp(-0.07 * x)) + 0.5 }
+power_fun <- function(x) { 0.4 * x^0.6 + 0.5 }
+segmented_fun <- function(x) {
+  ifelse(x < 15, 0.1 * x + 0.5, 0.02 * x + 1.25)
+}
+
+# Test all functions and count trees
+test_vwf_functions <- function(chm, min_height) {
+  results <- list()
+  
+  # Linear function
+  ttops_lin <- vwf(chm, winFun = lin_fun, minHeight = min_height)
+  results[["Linear"]] <- nrow(ttops_lin)
+  
+  # Exponential function
+  ttops_exp <- vwf(chm, winFun = exp_fun, minHeight = min_height)
+  results[["Exponential"]] <- nrow(ttops_exp)
+  
+  # Asymptotic function
+  ttops_asymp <- vwf(chm, winFun = asymp_fun, minHeight = min_height)
+  results[["Asymptotic"]] <- nrow(ttops_asymp)
+  
+  # Power law function
+  ttops_power <- vwf(chm, winFun = power_fun, minHeight = min_height)
+  results[["PowerLaw"]] <- nrow(ttops_power)
+  
+  # Segmented function
+  ttops_seg <- vwf(chm, winFun = segmented_fun, minHeight = min_height)
+  results[["Segmented"]] <- nrow(ttops_seg)
+  
+  return(results)
+}
+
+# Run the comparison
+results <- test_vwf_functions(chm_subset, minHeight)
+
+# Create comparison table
+comparison_table <- data.frame(
+  Function = names(results),
+  TreeCount = unlist(results)
+)
+
+# Print formatted results
+if(requireNamespace("knitr", quietly = TRUE)) {
+  knitr::kable(comparison_table, caption = "Tree Detection Comparison")
+} else {
+  print(comparison_table)
+}
+
+```
+
+```{r testing on the Peav4}
+peav4 <- here(
+  "output", 
+ "Peav4.tif" 
+)
+chm_peav4 <- rast(peav4)
+bb_peav4 <-st_bbox(peav4)
+```
+
+```{r}
 ```
