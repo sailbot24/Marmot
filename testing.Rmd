@@ -29,10 +29,6 @@ for(i in 1:nrow(filtered_veg)){
 ```
 
 
-# Packages
-
-Like any R project, the first step is to load in the packages that are required for this project. The one thing of note is the last line loads in the CHM downloading function. As described in the comments in the cell, the path to the CHM script must be included for R to pull the functions in. 
-
 ```{r}
 
 library(dplyr)
@@ -48,9 +44,6 @@ library(whitebox) # This package is worth looking in to.
 #TODO turn the CHM downloaded in to a R package
 ```
 
-# Filter the Veg Shapefiles
-
-This next block of code sets the filters for the shape file. Then reads in the vegetation shape file. (you may need to update paths to the shapefile if you try to run the script)
 
 ```{r}
 year_filter <- 1946
@@ -61,8 +54,6 @@ filtered_veg <- veg_shapefiles %>% filter(YR_ORIG > year_filter & L1_SZCL >size_
 
 ```
 
-# Downloading the First AOI CHM Raster
-Here is the test of the first AOI based on the filtered vegetation shapefiles. The AOI is then fed in to the downloader function. When the mask parameter is set to true the output raster will be masked to the shapefile. There is also a parameter that allows for the definition of the output path of the raster. I am going to go in and add an parameter to not save a copy of the raster locally when its downloaded. 
 
 ```{r}
 source("oregon_chm_downloader.r")
@@ -71,9 +62,6 @@ chm<- download_oregon_chm(aoi, mask = TRUE) #TODO add an option to not save the 
 
 ```
 
-# Running  Forest Tools on the First AOI
-
-Here is the running of forest tools. The lin function would need to be adjusted to better match the correct function for the AOI. Once we find a function that we like for the VWF we shoudl have an accurate tree count without over sampeling. 
 ```{r}
 
 minHeight = 12
@@ -395,24 +383,4 @@ ggplot(filtered_veg, aes(x = `L1_SPP1`)) +
 
 ```
 
-# Source the tree age calculator
-source("oregon_tree_age_calculator.R")
-
-# Load National Forest boundaries
-nf_path <- "Veg_ShapeFiles/FS_National_Forests_Dataset_(US_Forest_Service_Proclaimed_Forests)/FS_National_Forests_Dataset_(US_Forest_Service_Proclaimed_Forests).shp"
-national_forests <- st_read(nf_path, quiet = TRUE)
-
-# Filter for Siuslaw National Forest
-siuslaw <- national_forests %>% 
-  filter(FORESTNAME == "Siuslaw National Forest")
-
-# Create hexagon grid (50 acres each)
-hex_grid <- create_hexagon_grid(siuslaw, area_acres = 50)
-
-# Process just the first hexagon
-sample_hexagon <- hex_grid[1, ]
-sample_result <- process_hexagon(sample_hexagon, 1)
-
-# View the results
-print(sample_result)
 

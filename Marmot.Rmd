@@ -136,7 +136,7 @@ lin <- function(x){x * 0.05 + 0.6}
 
 #TODO make this more robust, for now it just assigns 9999 for age
 if (chm_subset_max <= minHeight){
-  siu_subset$tree_age <- 9999
+  siu_subset$tree_age <- 99999
 }else{
   ttops <- ForestTools::vwf(chm_subset, winFun = lin, minHeight = minHeight) #
   veg_data <- st_read_parquet(veg_paths$parquet, quiet = TRUE) %>% 
@@ -155,126 +155,7 @@ if (chm_subset_max <= minHeight){
   
   siu_subset$tree_age <- (log((1-siu_subset$height/(bo+b1*SI))^(b3+b4*SI)))/(b2*SI)
 }
+# calculate tree age individually 
 
 
-# Leaflet visualization
-# leaflet_tree_analysis <- function(chm, ttops, siu_boundary) {
-#   # Validate inputs
-#   stopifnot(inherits(chm, "SpatRaster"),
-#             inherits(ttops, "sf"),
-#             inherits(siu_boundary, "sf"))
-#   
-#   # Project to WGS84 (EPSG:4326) with error handling
-#   ttops_4326 <- tryCatch(
-#     st_transform(ttops, 4326),
-#     error = function(e) {
-#       warning("Error transforming tree tops: ", e$message)
-#       ttops
-#     }
-#   )
-#   
-#   siu_4326 <- tryCatch(
-#     st_transform(siu_boundary, 4326),
-#     error = function(e) {
-#       warning("Error transforming boundary: ", e$message)
-#       siu_boundary
-#     }
-#   )
-# 
-#   # Create optimized palettes
-#   chm_values <- values(chm)
-#   chm_pal <- colorNumeric(
-#     palette = "viridis",
-#     domain = chm_values,
-#     na.color = "transparent",
-#     alpha = TRUE
-#   )
-#   
-#   height_pal <- colorNumeric(
-#     palette = "RdYlGn",
-#     domain = ttops_4326$height,
-#     reverse = TRUE  # Red for taller trees
-#   )
-# 
-#   # Efficient SpatRaster to Raster conversion
-#   chm_raster <- tryCatch({
-#     if (requireNamespace("raster", quietly = TRUE)) {
-#       raster::raster(chm)
-#     } else {
-#       stop("Package 'raster' required for conversion")
-#     }
-#   }, error = function(e) {
-#     warning("Raster conversion failed: ", e$message)
-#     terra::project(chm, "EPSG:4326")  # Fallback to terra projection
-#   })
-# 
-#   # Build the map with performance optimizations
-#   leaf_map <- leaflet(options = leafletOptions(preferCanvas = TRUE)) %>%
-#     addProviderTiles(
-#       providers$Esri.WorldImagery,
-#       options = providerTileOptions(opacity = 0.9)
-#     ) %>%
-#     addRasterImage(
-#       chm_raster,
-#       colors = chm_pal,
-#       opacity = 0.7,
-#       project = FALSE,  # Faster rendering
-#       group = "Canopy Height",
-#       layerId = "chm"
-#     ) %>%
-#     addCircleMarkers(
-#       data = ttops_4326,
-#       radius = ~sqrt(height)/2,  # Dynamic sizing
-#       color = ~height_pal(height),
-#       fillOpacity = 0.9,
-#       stroke = FALSE,
-#       group = "Tree Tops",
-#       clusterOptions = markerClusterOptions()  # Optional clustering
-#     ) %>%
-#     addPolygons(
-#       data = siu_4326,
-#       color = "#FF0000",
-#       weight = 3,
-#       fillOpacity = 0.1,
-#       group = "Boundary",
-#       highlightOptions = highlightOptions(weight = 5, bringToFront = TRUE)
-#     ) %>%
-#     addLegend(
-#       pal = chm_pal,
-#       values = chm_values,
-#       title = "Height (m)",
-#       position = "bottomright",
-#       labFormat = labelFormat(suffix = " m")
-#     ) %>%
-#     addLayersControl(
-#       overlayGroups = c("Canopy Height", "Tree Tops", "Boundary"),
-#       options = layersControlOptions(collapsed = TRUE),
-#       position = "topleft"
-#     ) %>%
-#     addScaleBar(
-#       position = "bottomleft",
-#       options = scaleBarOptions(imperial = FALSE)
-#     ) %>%
-#     addMouseCoordinates() %>%
-#     addMiniMap(toggleDisplay = TRUE)
-#   
-#   # Add tree height legend if available
-#   if ("height" %in% names(ttops_4326)) {
-#     leaf_map <- leaf_map %>%
-#       addLegend(
-#         pal = height_pal,
-#         values = ttops_4326$height,
-#         title = "Tree Height",
-#         position = "bottomright",
-#         group = "Tree Tops"
-#       )
-#   }
-#   
-#   return(leaf_map)
-# }
-# 
-# 
-# # Create and view leaflet map
-# leaflet_map <- leaflet_tree_analysis(chm_subset, ttops, siu_subset)
-# leaflet_map
 ```
