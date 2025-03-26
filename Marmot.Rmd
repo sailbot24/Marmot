@@ -155,7 +155,7 @@ if (chm_subset_max <= minHeight){
   
   siu_subset$tree_age <- (log((1-siu_subset$height/(bo+b1*SI))^(b3+b4*SI)))/(b2*SI)
 }
-# calculate tree age individually 
+
 
 
 ```
