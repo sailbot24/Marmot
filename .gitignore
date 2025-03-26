@@ -9,3 +9,5 @@
 /maps_pics
 /output
 **.gpkg
+/oregon_chm_downloader.R
+*.tif
