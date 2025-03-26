@@ -1,0 +1,280 @@
+---
+title: "Marmot Tree Height Model"
+author: 
+  - name: "Gavin Adams"
+    affiliation: "Adams Geospatial" 
+    url: "https://www.adamsgeospatial.com"
+date: "`r Sys.Date()`"
+output: 
+---
+
+# Libraries 
+
+This includes all of the libraries for the project.
+
+```{r Libraries}
+devtools::install_github("sailbot24/oRLiDAR")
+library(oRLiDAR)
+library(terra)
+library(sf)
+library(dplyr)
+library(geoarrow)
+library(sfarrow)
+library(ForestTools)
+library(here)
+library(leaflet)
+library(tmap)
+
+```
+
+# Set up File Paths for Local Data and if Necessary Convert to Parquets
+
+The here package is great for making sure that the file paths of a project are sorted out easily \## Set the file paths
+
+```{r File Paths}
+forest_paths <- list(
+  gpkg = here("Veg_ShapeFiles", "US_Forest_Service_Proclaimed_Forests", "US_Forest_Service_Proclaimed_Forests.gpkg"),
+  parquet = here("Veg_ShapeFiles", "US_Forest_Service_Proclaimed_Forests", "US_Forest_Service_Proclaimed_Forests.parquet")
+)
+
+veg_paths <- list(
+  gpkg = here("Veg_ShapeFiles", "2003-Veg_Siuslaw", "veg.gpkg"),
+  parquet = here("Veg_ShapeFiles", "2003-Veg_Siuslaw", "veg.parquet")
+)
+
+grid_paths <- list(
+  gpkg = here("Veg_ShapeFiles", "grids", "siu_grid.gpkg"),
+  parquet = here("Veg_ShapeFiles", "grids", "siu_grid.parquet")
+)
+
+data_paths <- list(forest_paths,veg_paths,grid_paths)
+```
+
+## Make sure that there is a parquet version of every file. 
+
+This is to speed up processing time when handling large data sets. Also the size of the files is reduced which helps with sharing on platforms like github.
+
+```{r Parquet, include=FALSE}
+ensure_parquet_exists <- function(path_list) {
+  if (file.exists(path_list$parquet)) {
+    message(basename(path_list$parquet), " exists")
+    return()
+  }else{
+    source_file <- if (!is.null(path_list$gpkg) && file.exists(path_list$gpkg)) {
+    path_list$gpkg
+  } else{
+    warning("No source file found for ", basename(path_list$parquet))
+  }
+  
+  message("Creating ", basename(path_list$parquet), " from ", basename(source_file))
+  sf_obj <- st_read(source_file, quiet = TRUE)
+  st_write_parquet(sf_obj, path_list$parquet)
+  }
+}
+
+# Run for all configurations
+lapply(data_paths, ensure_parquet_exists)
+```
+
+# Create the Grid
+
+Create a gird where each cell is approximately `2` acres covering the Siuslaw National Forest. By first projecting the gird in Oregon Lambert makes sure tha
+
+```{r Create the 2 acre grid}
+if(!file.exists(grid_paths$parquet)){
+   siu <- st_read(forest_paths$gpkg, layer = "Nat_Forests") %>%
+    filter(FORESTNAME == 'Siuslaw National Forest') %>% 
+     #st_transform(32610)# UTM zone 10N EPSG code
+     st_transform(2992) # Oregon Lambert EPSG Code
+
+
+  siu_bb <- st_bbox(siu)
+
+  siu_grid<- st_make_grid(siu_bb,
+                          c(21780,21780), #this is the size in feet 
+                          what = "polygons", 
+                          square = TRUE # make the grid squares
+                          )
+  siu_grid <- siu_grid %>% 
+    st_sf() %>% 
+    mutate(grid_id = 1:length(lengths(siu_grid)))
+    
+  siu_grid <- st_intersection(siu_grid, siu)
+  
+  siu_grid$SHAPEAREA <- st_area(siu_grid)
+  
+  siu_grid <- siu_grid %>% select(-GIS_ACRES,-SHAPELEN, -OBJECTID, -FORESTNAME,-PROCLAIMED)
+  
+  st_write(siu_grid,grid_paths$gpkg, layer = "siu_grid")
+  st_write_parquet(siu_grid, grid_paths$parquet)
+    
+} else {
+  siu_grid <- st_read_parquet(grid_paths$parquet)
+}
+
+```
+
+# Tree Height Model
+
+Testing out the tree age function.
+
+We are still working on a way to get stand productivity from the raster and worked in for SI values.
+
+```{r Tree Height Model, include = FALSE}
+# simple processing code for now
+minHeight <-20 # or other thresshold in FT 
+siu_subset <- siu_grid[25000,] %>% 
+  st_transform(2992)
+chm_subset <-tryCatch(
+  {oRLiDAR::download_oregon_chm(siu_subset)
+  }, error = function(e) {stop("Failed to download CHM: ", e$message)}
+  )
+chm_subset_max <- terra::minmax(chm_subset)['max',]
+
+
+lin <- function(x){x * 0.05 + 0.6}
+
+#TODO make this more robust, for now it just assigns 9999 for age
+if (chm_subset_max <= minHeight){
+  siu_subset$tree_age <- 9999
+}else{
+  ttops <- ForestTools::vwf(chm_subset, winFun = lin, minHeight = minHeight) #
+  veg_data <- st_read_parquet(veg_paths$parquet, quiet = TRUE) %>% 
+    st_transform(2992)
+  siu_subset <- st_join(siu_subset, veg_data, join = st_intersects)
+  siu_subset$height <- mean(ttops$height)
+  
+  # Tree age calculations 
+  # Set the constants 
+  SI <- 105 #TODO change this to be read from the productivity layer, but just use CLass3 for now
+  bo <- 123.25
+  b1 <- 0.71698
+  b2 <- -0.0001677
+  b3 <- 0.95516
+  b4 <- 0.0022182
+  
+  siu_subset$tree_age <- (log((1-siu_subset$height/(bo+b1*SI))^(b3+b4*SI)))/(b2*SI)
+}
+
+
+# Leaflet visualization
+# leaflet_tree_analysis <- function(chm, ttops, siu_boundary) {
+#   # Validate inputs
+#   stopifnot(inherits(chm, "SpatRaster"),
+#             inherits(ttops, "sf"),
+#             inherits(siu_boundary, "sf"))
+#   
+#   # Project to WGS84 (EPSG:4326) with error handling
+#   ttops_4326 <- tryCatch(
+#     st_transform(ttops, 4326),
+#     error = function(e) {
+#       warning("Error transforming tree tops: ", e$message)
+#       ttops
+#     }
+#   )
+#   
+#   siu_4326 <- tryCatch(
+#     st_transform(siu_boundary, 4326),
+#     error = function(e) {
+#       warning("Error transforming boundary: ", e$message)
+#       siu_boundary
+#     }
+#   )
+# 
+#   # Create optimized palettes
+#   chm_values <- values(chm)
+#   chm_pal <- colorNumeric(
+#     palette = "viridis",
+#     domain = chm_values,
+#     na.color = "transparent",
+#     alpha = TRUE
+#   )
+#   
+#   height_pal <- colorNumeric(
+#     palette = "RdYlGn",
+#     domain = ttops_4326$height,
+#     reverse = TRUE  # Red for taller trees
+#   )
+# 
+#   # Efficient SpatRaster to Raster conversion
+#   chm_raster <- tryCatch({
+#     if (requireNamespace("raster", quietly = TRUE)) {
+#       raster::raster(chm)
+#     } else {
+#       stop("Package 'raster' required for conversion")
+#     }
+#   }, error = function(e) {
+#     warning("Raster conversion failed: ", e$message)
+#     terra::project(chm, "EPSG:4326")  # Fallback to terra projection
+#   })
+# 
+#   # Build the map with performance optimizations
+#   leaf_map <- leaflet(options = leafletOptions(preferCanvas = TRUE)) %>%
+#     addProviderTiles(
+#       providers$Esri.WorldImagery,
+#       options = providerTileOptions(opacity = 0.9)
+#     ) %>%
+#     addRasterImage(
+#       chm_raster,
+#       colors = chm_pal,
+#       opacity = 0.7,
+#       project = FALSE,  # Faster rendering
+#       group = "Canopy Height",
+#       layerId = "chm"
+#     ) %>%
+#     addCircleMarkers(
+#       data = ttops_4326,
+#       radius = ~sqrt(height)/2,  # Dynamic sizing
+#       color = ~height_pal(height),
+#       fillOpacity = 0.9,
+#       stroke = FALSE,
+#       group = "Tree Tops",
+#       clusterOptions = markerClusterOptions()  # Optional clustering
+#     ) %>%
+#     addPolygons(
+#       data = siu_4326,
+#       color = "#FF0000",
+#       weight = 3,
+#       fillOpacity = 0.1,
+#       group = "Boundary",
+#       highlightOptions = highlightOptions(weight = 5, bringToFront = TRUE)
+#     ) %>%
+#     addLegend(
+#       pal = chm_pal,
+#       values = chm_values,
+#       title = "Height (m)",
+#       position = "bottomright",
+#       labFormat = labelFormat(suffix = " m")
+#     ) %>%
+#     addLayersControl(
+#       overlayGroups = c("Canopy Height", "Tree Tops", "Boundary"),
+#       options = layersControlOptions(collapsed = TRUE),
+#       position = "topleft"
+#     ) %>%
+#     addScaleBar(
+#       position = "bottomleft",
+#       options = scaleBarOptions(imperial = FALSE)
+#     ) %>%
+#     addMouseCoordinates() %>%
+#     addMiniMap(toggleDisplay = TRUE)
+#   
+#   # Add tree height legend if available
+#   if ("height" %in% names(ttops_4326)) {
+#     leaf_map <- leaf_map %>%
+#       addLegend(
+#         pal = height_pal,
+#         values = ttops_4326$height,
+#         title = "Tree Height",
+#         position = "bottomright",
+#         group = "Tree Tops"
+#       )
+#   }
+#   
+#   return(leaf_map)
+# }
+# 
+# 
+# # Create and view leaflet map
+# leaflet_map <- leaflet_tree_analysis(chm_subset, ttops, siu_subset)
+# leaflet_map
+```
