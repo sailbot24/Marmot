@@ -12,7 +12,7 @@ output:
 
 This includes all of the libraries for the project.
 
-```{r Libraries}
+```{r setup, include = FALSE}
 devtools::install_github("sailbot24/oRLiDAR")
 library(oRLiDAR)
 library(terra)
@@ -122,7 +122,7 @@ Testing out the tree age function.
 
 We are still working on a way to get stand productivity from the raster and worked in for SI values.
 
-```{r Tree Height Model, include = FALSE}
+```{r Tree Height Model, warning=FALSE, include=FALSE}
 # simple processing code for now
 minHeight <-20 # or other threshold in FT 
 probs <- .9 # to take the top 10% of trees. 

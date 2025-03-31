@@ -16,7 +16,7 @@ si_calculator <- function(aoi, ttops,...){
   prod_subset <- arcpullr::get_image_layer(url = 'https://di-usfsdata.img.arcgis.com/arcgis/rest/services/CONUS_site_productivity_2018_masked_202106032103033/ImageServer',
                                            sf_object = aoi)
   # Plot the productity class for the cell. 
-  
+    
   plot(aoi$geometry, main = "Productivity Classes")
   plot(prod_subset)
   plot(sf::st_geometry(ttops), add = TRUE, pch = 16, cex = 0.5, col = "red")
