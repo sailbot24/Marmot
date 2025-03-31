@@ -25,6 +25,7 @@ library(here)
 library(leaflet)
 library(tmap)
 source(".si_function.R")
+
 ```
 
 # Set up File Paths for Local Data and if Necessary Convert to Parquets
@@ -80,7 +81,8 @@ lapply(data_paths, ensure_parquet_exists)
 
 Create a gird where each cell is approximately `2` acres covering the Siuslaw National Forest. By first projecting the gird in Oregon Lambert makes sure tha
 
-```{r Create the 2 acre grid}
+```{r Create the 2 acre grid} 
+#TODO change the names so that they are more generic than for the Siuslaw forest
 if(!file.exists(grid_paths$parquet)){
    siu <- st_read(forest_paths$gpkg, layer = "Nat_Forests") %>%
     filter(FORESTNAME == 'Siuslaw National Forest') %>% 
@@ -122,8 +124,8 @@ We are still working on a way to get stand productivity from the raster and work
 
 ```{r Tree Height Model, include = FALSE}
 # simple processing code for now
-minHeight <-20 # or other thresshold in FT 
-
+minHeight <-20 # or other threshold in FT 
+probs <- .9 # to take the top 10% of trees. 
 siu_subset <- siu_grid[10000,] %>% 
   st_transform(2992)
 
@@ -150,9 +152,11 @@ if (chm_subset_max <= minHeight){
   veg_data <- st_read_parquet(veg_paths$parquet, quiet = TRUE) %>% 
     st_transform(2992)
   siu_subset <- st_join(siu_subset, veg_data, join = st_intersects)
+  
   # cull to get the upper canopy top 10% or 5% and then take the mean of that 
+  # also keeping the mean height for the stand 
   siu_subset$height_mean <- mean(ttops$height) # Need
-  #siu_subset$height_top10 <- stats::quantile(ttpos$height, probs = .90 )
+  siu_subset$height_top10 <- stats::quantile(ttpos$height, probs = .9 )
   
   # Tree age calculations 
   # Set the constants 
