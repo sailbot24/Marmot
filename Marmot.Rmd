@@ -140,6 +140,7 @@ if (chm_subset_max <= minHeight){
   siu_subset$tree_age <- 99999
 }else{
   lin <- function(x){x * 0.05 + 0.6} # TODO, I think that that the WVF function could use some refinement 
+  # the VWF filter that needs to be changed to 
   ttops <- ForestTools::vwf(chm_subset, winFun = lin, minHeight = minHeight) 
   # individual Tree height age 
   ttops$SI <-si_calculator(siu_subset, ttops)
@@ -150,17 +151,18 @@ if (chm_subset_max <= minHeight){
     st_transform(2992)
   siu_subset <- st_join(siu_subset, veg_data, join = st_intersects)
   # cull to get the upper canopy top 10% or 5% and then take the mean of that 
-  siu_subset$height <- mean(ttops$height) #
+  siu_subset$height_mean <- mean(ttops$height) # Need
+  #siu_subset$height_top10 <- stats::quantile(ttpos$height, probs = .90 )
   
   # Tree age calculations 
   # Set the constants 
-  SI <- 105 
+  SI <- 105
   bo <- 123.25
   b1 <- 0.71698
   b2 <- -0.0001677
   b3 <- 0.95516
   b4 <- 0.0022182
-  
+
   # this needs to be 3% command 
   siu_subset$tree_age <- (log((1-siu_subset$height/(bo+b1*SI))^(b3+b4*SI)))/(b2*SI)
 }
