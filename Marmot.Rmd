@@ -149,14 +149,15 @@ if (chm_subset_max <= minHeight){
   ttops$Age <- calculate_tree_age(ttops$SI, ttops$height) 
   
   # so that the gird subset has 
-  veg_data <- st_read_parquet(veg_paths$parquet, quiet = TRUE) %>% 
-    st_transform(2992)
-  siu_subset <- st_join(siu_subset, veg_data, join = st_intersects)
+  # veg_data <- st_read_parquet(veg_paths$parquet, quiet = TRUE) %>% 
+  #   st_transform(2992)
+  # siu_subset <- st_join(siu_subset, veg_data, join = st_intersects)
   
   # cull to get the upper canopy top 10% or 5% and then take the mean of that 
   # also keeping the mean height for the stand 
   siu_subset$height_mean <- mean(ttops$height) # Need
-  siu_subset$height_top10 <- stats::quantile(ttpos$height, probs = .9 )
+  siu_subset$height_top10 <- stats::quantile(ttops$height, probs = .9 )  
+  
   
   # Tree age calculations 
   # Set the constants 
@@ -168,7 +169,7 @@ if (chm_subset_max <= minHeight){
   b4 <- 0.0022182
 
   # this needs to be 3% command 
-  siu_subset$tree_age <- (log((1-siu_subset$height/(bo+b1*SI))^(b3+b4*SI)))/(b2*SI)
+  siu_subset$tree_age <- (log((1-siu_subset$height_top10/(bo+b1*SI))^(b3+b4*SI)))/(b2*SI)
 }
 ```
 
@@ -180,8 +181,8 @@ tmap_mode("view")# makes the tmap interactive
 # Create the base map
 tree_age_map <-  tm_basemap(server = "Esri.WorldImagery")+
   tm_shape(ttops) +
-  tm_dots(col = "height",
-          title = "Tree Height (FT)",
+  tm_dots(col = "Age",
+          title = "Tree Age",
           style = "cont",  # Continuous color scale
           palette = "YlOrBr",  # Yellow-Orange-Brown palette
           n = 5,  # Number of breaks
@@ -209,57 +210,69 @@ tree_age_map
 ## VWF Function Testing
 
 ```{r}
-lin_fun <- function(x) { x * 0.05 + 0.6 }  # Original linear function
-exp_fun <- function(x) { 0.6 * exp(0.03 * x) }
-asymp_fun <- function(x) { 1.2 * (1 - exp(-0.07 * x)) + 0.5 }
-power_fun <- function(x) { 0.4 * x^0.6 + 0.5 }
-segmented_fun <- function(x) {
-  ifelse(x < 15, 0.1 * x + 0.5, 0.02 * x + 1.25)
-}
 
-# Test all functions and count trees
-test_vwf_functions <- function(chm, min_height) {
-  results <- list()
-  
-  # Linear function
-  ttops_lin <- vwf(chm, winFun = lin_fun, minHeight = min_height)
-  results[["Linear"]] <- nrow(ttops_lin)
-  
-  # Exponential function
-  ttops_exp <- vwf(chm, winFun = exp_fun, minHeight = min_height)
-  results[["Exponential"]] <- nrow(ttops_exp)
-  
-  # Asymptotic function
-  ttops_asymp <- vwf(chm, winFun = asymp_fun, minHeight = min_height)
-  results[["Asymptotic"]] <- nrow(ttops_asymp)
-  
-  # Power law function
-  ttops_power <- vwf(chm, winFun = power_fun, minHeight = min_height)
-  results[["PowerLaw"]] <- nrow(ttops_power)
-  
-  # Segmented function
-  ttops_seg <- vwf(chm, winFun = segmented_fun, minHeight = min_height)
-  results[["Segmented"]] <- nrow(ttops_seg)
-  
-  return(results)
-}
+tmap_mode("view")
 
-# Run the comparison
-results <- test_vwf_functions(chm_subset, minHeight)
-
-# Create comparison table
-comparison_table <- data.frame(
-  Function = names(results),
-  TreeCount = unlist(results)
+# segmented functions 
+segmented_vwfs <- list(
+  Seg1 = function(x) ifelse(x < 15, 0.1 * x + 0.5, 0.02 * x + 1.25),
+  Seg2 = function(x) ifelse(x < 15, 0.12 * x + 0.4, 0.02 * x + 1.3),
+  Seg3 = function(x) ifelse(x < 18, 0.08 * x + 0.6, 0.015 * x + 1.4),
+  Seg4 = function(x) ifelse(x < 15, 0.1 * x + 0.5, 0.05 * x + 1.0),
+  Seg5 = function(x) ifelse(x < 15, 0.09 * x + 0.55, 0.01 * x + 1.5),
+  Seg6 = function(x) 0.06 * x + 1
 )
 
-# Print formatted results
-if(requireNamespace("knitr", quietly = TRUE)) {
-  knitr::kable(comparison_table, caption = "Tree Detection Comparison")
-} else {
-  print(comparison_table)
+
+# Function: Run VWF with All Segment Variants
+get_vwf_ttops <- function(chm, min_height = min_height) {
+  ttops_list <- list()
+  
+  for (name in names(segmented_vwfs)) {
+    cat("Running VWF:", name, "\n")
+    
+    ttops_testing <- vwf(chm, winFun = segmented_vwfs[[name]], minHeight = min_height)
+    ttops_testing$name <- name  # Add function name for faceting
+    ttops_list[[name]] <- ttops_testing
+  }
+  
+  return(ttops_list)
 }
 
+ttops_list <- get_vwf_ttops(chm=chm_subset, min_height = 2)
+
+# Combine all into one `sf` object
+ttops_all <- do.call(rbind, ttops_list)
+
+
+tm_shape(chm_subset) +
+  tm_raster(style = "cont", palette = "viridis", title = "CHM Height") +
+tm_shape(ttops_all) +
+  tm_symbols(col = "red", size = 0.05) +
+  tm_facets(by = "name", free.coords = FALSE, drop.units = TRUE) +
+  tm_layout(legend.outside = TRUE, title = "Tree Tops by VWF Function")
+
+```
+```{r}
+
+# Count number of trees per function
+ttops_counts <- lapply(ttops_list, nrow)
+
+# Convert to a tidy data frame
+ttops_summary <- data.frame(
+  Function = names(ttops_counts),
+  Tree_Count = unlist(ttops_counts)
+)
+
+# View the results
+print(ttops_summary)
+library(ggplot2)
+
+ggplot(ttops_summary, aes(x = Function, y = Tree_Count, fill = Function)) +
+  geom_col(show.legend = FALSE) +
+  theme_minimal() +
+  labs(title = "Tree Counts by Segmented VWF Function",
+       x = "Function", y = "Number of Detected Trees")
 ```
 
 ```{r testing on the Peav4}
