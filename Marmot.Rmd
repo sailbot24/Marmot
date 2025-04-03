@@ -18,12 +18,12 @@ library(oRLiDAR)
 library(terra)
 library(sf)
 library(dplyr)
-library(geoarrow)
 library(sfarrow)
 library(ForestTools)
 library(here)
-library(leaflet)
 library(tmap)
+library(tictoc)
+
 source(".si_function.R")
 
 ```
@@ -123,31 +123,35 @@ Testing out the tree age function.
 We are still working on a way to get stand productivity from the raster and worked in for SI values.
 
 ```{r Tree Height Model, warning=FALSE, include=FALSE}
+tic('total', quiet = FALSE)
 # simple processing code for now
 minHeight <-20 # or other threshold in FT 
 probs <- .9 # to take the top 10% of trees. 
 siu_subset <- siu_grid[10000,] %>% 
   st_transform(2992)
-
+tic("CHM Fetch", quiet = F)
 chm_subset <-tryCatch(
   {oRLiDAR::download_oregon_chm(siu_subset)
   }, error = function(e) {stop("Failed to download CHM: ", e$message)}
   )
 chm_subset_max <- terra::minmax(chm_subset)['max',]
-
+toc()
 
 
 #TODO make this more robust, for now it just assigns 9999 for age
 if (chm_subset_max <= minHeight){
   siu_subset$tree_age <- 99999
 }else{
+  tic("Age Calculation", quiet = F)
   lin <- function(x){x * 0.05 + 0.6} # TODO, I think that that the WVF function could use some refinement 
   # the VWF filter that needs to be changed to 
   ttops <- ForestTools::vwf(chm_subset, winFun = lin, minHeight = minHeight) 
   # individual Tree height age 
+  tic("SI Fetch", quiet = F)
   ttops$SI <-si_calculator(siu_subset, ttops)
+  toc()
   ttops$Age <- calculate_tree_age(ttops$SI, ttops$height) 
-  
+
   # so that the gird subset has 
   # veg_data <- st_read_parquet(veg_paths$parquet, quiet = TRUE) %>% 
   #   st_transform(2992)
@@ -170,6 +174,8 @@ if (chm_subset_max <= minHeight){
 
   # this needs to be 3% command 
   siu_subset$tree_age <- (log((1-siu_subset$height_top10/(bo+b1*SI))^(b3+b4*SI)))/(b2*SI)
+  toc()
+  toc()
 }
 ```
 
