@@ -224,6 +224,7 @@ segmented_vwfs <- list(
 )
 
 
+
 # Function: Run VWF with All Segment Variants
 get_vwf_ttops <- function(chm, min_height = min_height) {
   ttops_list <- list()
